@@ -19,6 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="hero_1.jpg">
 <style>
   :root {
     --bg: #0e1029;              /* deep navy page background */
@@ -422,12 +423,16 @@
     position: relative;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    -webkit-transform: translateZ(0); /* force GPU layer — fixes Safari mask+animation paint bug */
+    transform: translateZ(0);
   }
   .logo-track {
     display: flex;
     gap: 18px;
     width: max-content;
     animation: logo-scroll 30s linear infinite;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
   .logo-carousel:hover .logo-track { animation-play-state: paused; }
   .logo-item {
@@ -512,7 +517,7 @@
     <p class="eyebrow">The Program</p>
     <h2>How does Lead the Room work?</h2>
     <p class="lead">Thirty years of leading rooms taught us it comes down to four things. You build CONFIDENCE to own the room, sharpen SKILLS to influence it, master ENERGY to read and move it, and use DESIGN to shape it &mdash; one lab per skill, two weeks, every session practised live.</p>
-    <img src="hero_1.jpg" alt="Lead the Room" style="width:100%; border-radius:20px; margin-top:48px; display:block;">
+    <img src="hero_1.jpg" alt="Lead the Room" width="1344" height="756" decoding="async" style="width:100%; height:auto; border-radius:20px; margin-top:48px; display:block;">
   </div>
 </section>
 
@@ -627,7 +632,7 @@
     <p class="eyebrow">Included With Every Seat</p>
     <h2>Lead the Room Field Guide</h2>
     <p class="lead">A professionally designed workbook shipped to your door &mdash; not a PDF, not a slide deck. Inside: the complete method, every exercise, and session design templates. Use it in the room, return to it between sessions, and keep it working long after the programme ends.</p>
-    <img src="hero_2.jpg" alt="Lead the Room Field Guide and Video Vault" style="width:100%; border-radius:20px; margin-top:48px; display:block;">
+    <img src="hero_2.jpg" alt="Lead the Room Field Guide and Video Vault" width="1344" height="756" loading="lazy" decoding="async" style="width:100%; height:auto; border-radius:20px; margin-top:48px; display:block;">
 
     <h2 style="margin-top:70px;">Lead the Room Video Vault</h2>
     <p class="lead">On-demand video sessions covering confidence patterns, advanced facilitation tactics, the Four Disciplines of a Skilful Facilitator, preparation systems, and using AI as a facilitation partner. Yours to keep and revisit after the programme ends.</p>
@@ -647,11 +652,11 @@
     </div>
     <div class="mentor-grid">
       <div class="mentor-card">
-        <img class="photo" src="micheleskogerboe.jpg" alt="Michele Skogerboe">
+        <img class="photo" src="micheleskogerboe.jpg" alt="Michele Skogerboe" width="1024" height="1024" loading="lazy" decoding="async">
         <h3>Michele Skogerboe</h3>        <p>Michele designs and delivers experiences that challenge how leaders think, behave, and show up. She doesn't lecture from the front of the room &mdash; she creates immersive programmes that surface hard truths and help leaders practise courage, curiosity, and care. Her work draws from psychology, systems thinking, and human-centred design, always grounded in evidence and translated for real rooms.</p>
       </div>
       <div class="mentor-card">
-        <img class="photo" src="jason-moore.jpg" alt="Jason Moore">
+        <img class="photo" src="jason-moore.jpg" alt="Jason Moore" width="1664" height="1664" loading="lazy" decoding="async">
         <h3>Jason Moore</h3>        <p>Jason has spent more than two decades facilitating leadership experiences for organisations including Microsoft, HSBC, Netflix, Equinix, and Goldman Sachs &mdash; reaching more than 500,000 people across 50+ countries. His style is energising, rigorous, and deeply human. He brings as much care to what shifts in people as to what gets decided.</p>
       </div>
     </div>
@@ -664,26 +669,26 @@
     <p style="text-align:center; color:var(--muted); font-size:13px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; margin-top:44px;">Trusted by leaders at:</p>
     <div class="logo-carousel">
       <div class="logo-track">
-        <div class="logo-item"><img src="microsoft.png" alt="Microsoft"></div>
-        <div class="logo-item"><img src="intuit.png" alt="Intuit"></div>
-        <div class="logo-item"><img src="hsbc.png" alt="HSBC"></div>
-        <div class="logo-item"><img src="equinix.png" alt="Equinix"></div>
-        <div class="logo-item"><img src="netflix.png" alt="Netflix"></div>
-        <div class="logo-item"><img src="goldman.png" alt="Goldman Sachs"></div>
-        <div class="logo-item"><img src="nordea.png" alt="Nordea"></div>
-        <div class="logo-item"><img src="bupa.png" alt="Bupa"></div>
-        <div class="logo-item"><img src="oq.png" alt="OQ"></div>
-        <div class="logo-item"><img src="wells.png" alt="Wells Fargo"></div>
-        <div class="logo-item"><img src="microsoft.png" alt="Microsoft"></div>
-        <div class="logo-item"><img src="intuit.png" alt="Intuit"></div>
-        <div class="logo-item"><img src="hsbc.png" alt="HSBC"></div>
-        <div class="logo-item"><img src="equinix.png" alt="Equinix"></div>
-        <div class="logo-item"><img src="netflix.png" alt="Netflix"></div>
-        <div class="logo-item"><img src="goldman.png" alt="Goldman Sachs"></div>
-        <div class="logo-item"><img src="nordea.png" alt="Nordea"></div>
-        <div class="logo-item"><img src="bupa.png" alt="Bupa"></div>
-        <div class="logo-item"><img src="oq.png" alt="OQ"></div>
-        <div class="logo-item"><img src="wells.png" alt="Wells Fargo"></div>
+        <div class="logo-item"><img src="microsoft.png" alt="Microsoft" decoding="async"></div>
+        <div class="logo-item"><img src="intuit.png" alt="Intuit" decoding="async"></div>
+        <div class="logo-item"><img src="hsbc.png" alt="HSBC" decoding="async"></div>
+        <div class="logo-item"><img src="equinix.png" alt="Equinix" decoding="async"></div>
+        <div class="logo-item"><img src="netflix.png" alt="Netflix" decoding="async"></div>
+        <div class="logo-item"><img src="goldman.png" alt="Goldman Sachs" decoding="async"></div>
+        <div class="logo-item"><img src="nordea.png" alt="Nordea" decoding="async"></div>
+        <div class="logo-item"><img src="bupa.png" alt="Bupa" decoding="async"></div>
+        <div class="logo-item"><img src="oq.png" alt="OQ" decoding="async"></div>
+        <div class="logo-item"><img src="wells.png" alt="Wells Fargo" decoding="async"></div>
+        <div class="logo-item"><img src="microsoft.png" alt="Microsoft" decoding="async"></div>
+        <div class="logo-item"><img src="intuit.png" alt="Intuit" decoding="async"></div>
+        <div class="logo-item"><img src="hsbc.png" alt="HSBC" decoding="async"></div>
+        <div class="logo-item"><img src="equinix.png" alt="Equinix" decoding="async"></div>
+        <div class="logo-item"><img src="netflix.png" alt="Netflix" decoding="async"></div>
+        <div class="logo-item"><img src="goldman.png" alt="Goldman Sachs" decoding="async"></div>
+        <div class="logo-item"><img src="nordea.png" alt="Nordea" decoding="async"></div>
+        <div class="logo-item"><img src="bupa.png" alt="Bupa" decoding="async"></div>
+        <div class="logo-item"><img src="oq.png" alt="OQ" decoding="async"></div>
+        <div class="logo-item"><img src="wells.png" alt="Wells Fargo" decoding="async"></div>
       </div>
     </div>
   </div>
