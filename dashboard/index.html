@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lead the Room — September Cohort Tracker</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page:           #f9f9f7;
+    --surface-1:      #fcfcfb;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6;  /* blue  — paid / followers / posts */
+    --series-2:       #eb6834;  /* orange — free / engagement */
+    --ord-1:          #86b6ef;  /* ordinal ramp: registrations */
+    --ord-2:          #2a78d6;  /* attended */
+    --ord-3:          #104281;  /* signed up */
+    --meter-track:    #cde2fb;
+    --delta-good:     #006300;
+    --delta-bad:      #d03b3b;
+    --warn:           #fab219;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --page:           #0d0d0d;
+      --surface-1:      #1a1a19;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --series-2:       #d95926;
+      --ord-1:          #9ec5f4;
+      --ord-2:          #3987e5;
+      --ord-3:          #184f95;
+      --meter-track:    #0d366b;
+      --delta-good:     #0ca30c;
+      --delta-bad:      #e66767;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page:           #0d0d0d;
+    --surface-1:      #1a1a19;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --series-2:       #d95926;
+    --ord-1:          #9ec5f4;
+    --ord-2:          #3987e5;
+    --ord-3:          #184f95;
+    --meter-track:    #0d366b;
+    --delta-good:     #0ca30c;
+    --delta-bad:      #e66767;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 28px 20px 56px; }
+
+  /* ---------- header ---------- */
+  .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { color: var(--text-secondary); font-size: 14px; margin: 0; }
+  .sub strong { color: var(--text-primary); font-weight: 600; }
+  .top-right { display: flex; align-items: center; gap: 10px; }
+  .badge {
+    font-size: 12px; padding: 4px 10px; border-radius: 999px;
+    border: 1px solid var(--border); color: var(--text-secondary);
+    background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+  }
+  .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--delta-good); }
+  .badge.sample .dot { background: var(--warn); }
+  .theme-btn {
+    font-size: 12px; padding: 4px 10px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary);
+  }
+  .theme-btn:hover { color: var(--text-primary); }
+
+  /* ---------- KPI tiles ---------- */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 20px 0 14px; }
+  @media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .kpis { grid-template-columns: 1fr; } }
+  .tile {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px 12px; display: flex; flex-direction: column; gap: 2px; min-height: 104px;
+  }
+  .tile .t-label { font-size: 12.5px; color: var(--text-secondary); }
+  .tile .t-value { font-size: 30px; font-weight: 650; line-height: 1.15; letter-spacing: -0.01em; }
+  .tile .t-value .t-den { font-size: 16px; font-weight: 500; color: var(--text-muted); }
+  .tile .t-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; margin-top: auto; }
+  .tile .t-delta { font-size: 12px; color: var(--text-muted); }
+  .tile .t-delta .up { color: var(--delta-good); font-weight: 600; }
+  .tile .t-delta .down { color: var(--delta-bad); font-weight: 600; }
+  .tile svg { display: block; }
+
+  /* ---------- cards ---------- */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px 14px;
+  }
+  .card > header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+  .card h2 { font-size: 15px; font-weight: 650; margin: 0; }
+  .tag {
+    font-size: 10.5px; font-weight: 650; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-muted);
+  }
+  .card .desc { font-size: 12.5px; color: var(--text-muted); margin: 0 0 10px; }
+  .tbl-btn {
+    margin-left: auto; font-size: 12px; border: 1px solid var(--border); border-radius: 8px;
+    background: transparent; color: var(--text-secondary); padding: 3px 9px; cursor: pointer;
+  }
+  .tbl-btn:hover { color: var(--text-primary); }
+  .tbl-btn[aria-pressed="true"] { background: var(--page); color: var(--text-primary); }
+
+  /* meters */
+  .meters { display: flex; flex-direction: column; gap: 9px; margin: 6px 0 16px; }
+  .meter { display: grid; grid-template-columns: 92px 1fr 86px; align-items: center; gap: 10px; font-size: 12.5px; }
+  .meter .m-label { color: var(--text-secondary); }
+  .meter .m-track { height: 10px; border-radius: 5px; background: var(--meter-track); overflow: hidden; }
+  .meter .m-fill { height: 100%; border-radius: 5px 0 0 5px; background: var(--series-1); }
+  .meter .m-val { color: var(--text-primary); font-weight: 600; text-align: right; white-space: nowrap; }
+  .meter .m-val span { color: var(--text-muted); font-weight: 400; }
+
+  /* legend */
+  .legend { display: flex; gap: 16px; align-items: center; font-size: 12px; color: var(--text-secondary); margin: 2px 0 6px; }
+  .legend .key { display: inline-flex; align-items: center; gap: 6px; }
+  .legend .swatch-line { width: 14px; height: 2px; border-radius: 1px; }
+  .legend .swatch-rect { width: 10px; height: 10px; border-radius: 3px; box-shadow: inset 0 0 0 1px var(--border); }
+
+  .chart-mount { position: relative; }
+  .chart-mount svg { display: block; width: 100%; height: auto; }
+
+  /* data tables (accessibility twin) */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 6px; }
+  .data-table th { text-align: left; color: var(--text-secondary); font-weight: 600; padding: 6px 8px; border-bottom: 1px solid var(--baseline); }
+  .data-table td { padding: 6px 8px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
+  .data-table td:first-child { font-variant-numeric: normal; }
+  .hidden { display: none !important; }
+
+  /* tooltip */
+  #tooltip {
+    position: fixed; z-index: 50; pointer-events: none; min-width: 120px;
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.14); padding: 8px 11px; font-size: 12px;
+    display: none;
+  }
+  #tooltip .tt-title { color: var(--text-muted); margin-bottom: 4px; }
+  #tooltip .tt-row { display: flex; align-items: center; gap: 7px; padding: 1.5px 0; }
+  #tooltip .tt-key { width: 12px; height: 2px; border-radius: 1px; flex: none; }
+  #tooltip .tt-val { font-weight: 650; color: var(--text-primary); }
+  #tooltip .tt-name { color: var(--text-secondary); }
+
+  .upcoming { font-size: 12.5px; color: var(--text-muted); padding: 8px 0 2px; }
+  .upcoming strong { color: var(--text-secondary); font-weight: 600; }
+
+  .foot-note { margin-top: 18px; font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
+  .foot-note code { background: var(--surface-1); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; font-size: 11.5px; }
+
+  .mini-title { font-size: 12px; color: var(--text-secondary); margin: 8px 0 2px; display: flex; align-items: center; gap: 6px; }
+  .mini-title .swatch-rect { width: 9px; height: 9px; border-radius: 2.5px; display: inline-block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Lead the Room — September cohort</h1>
+      <p class="sub" id="subline">Loading…</p>
+    </div>
+    <div class="top-right">
+      <span class="badge" id="dataBadge"><span class="dot"></span><span id="dataBadgeText">Loading…</span></span>
+      <button class="theme-btn" id="themeBtn" type="button">Theme</button>
+    </div>
+  </div>
+
+  <section class="kpis" id="kpis" aria-label="Headline numbers"></section>
+
+  <section class="grid">
+    <div class="card" id="card-sales">
+      <header><h2>Cohort places &amp; income</h2><span class="tag">Lag</span><button class="tbl-btn" type="button" aria-pressed="false">Table</button></header>
+      <p class="desc">Cumulative sign-ups against 10 paid + 10 free places and the £2,000 income target.</p>
+      <div class="meters" id="salesMeters"></div>
+      <div class="body-chart">
+        <div class="legend" id="salesLegend"></div>
+        <div class="chart-mount" id="salesChart"></div>
+      </div>
+      <div class="body-table hidden"></div>
+    </div>
+
+    <div class="card" id="card-followers">
+      <header><h2>LinkedIn followers</h2><span class="tag">Lag</span><button class="tbl-btn" type="button" aria-pressed="false">Table</button></header>
+      <p class="desc">Company-page follower count against the 150-follower target.</p>
+      <div class="body-chart"><div class="chart-mount" id="followersChart"></div></div>
+      <div class="body-table hidden"></div>
+    </div>
+
+    <div class="card" id="card-webinars">
+      <header><h2>Webinar funnel</h2><span class="tag">Lead</span><button class="tbl-btn" type="button" aria-pressed="false">Table</button></header>
+      <p class="desc">Registrations → attended → cohort sign-ups for each webinar.</p>
+      <div class="body-chart">
+        <div class="legend" id="webinarLegend"></div>
+        <div class="chart-mount" id="webinarChart"></div>
+        <div id="webinarUpcoming"></div>
+      </div>
+      <div class="body-table hidden"></div>
+    </div>
+
+    <div class="card" id="card-posting">
+      <header><h2>LinkedIn posting</h2><span class="tag">Lead</span><button class="tbl-btn" type="button" aria-pressed="false">Table</button></header>
+      <p class="desc">Posts published and engagement (reactions + comments) per week.</p>
+      <div class="body-chart">
+        <div class="mini-title"><span class="swatch-rect" style="background:var(--series-1)"></span>Posts per week</div>
+        <div class="chart-mount" id="postsChart"></div>
+        <div class="mini-title"><span class="swatch-rect" style="background:var(--series-2)"></span>Engagement per week</div>
+        <div class="chart-mount" id="engagementChart"></div>
+      </div>
+      <div class="body-table hidden"></div>
+    </div>
+  </section>
+
+  <p class="foot-note" id="footNote"></p>
+</div>
+
+<div id="tooltip" role="status"></div>
+
+<script>
+'use strict';
+
+/* ================================================================
+   CONFIG — the only part you need to edit.
+
+   1. Make a Google Sheet with two tabs matching the templates:
+        Weekly:   Date, Paid, Free, Income, Followers, Posts, Engagement
+        Webinars: Webinar, Date, Registrations, Attended, Signups
+   2. File → Share → Publish to web → pick the tab → CSV → copy link.
+      Do that once per tab and paste the two links below.
+   3. Redeploy to Netlify (or just refresh if the file is already live).
+   Until URLs are set, the dashboard shows sample data.
+   ================================================================ */
+const CONFIG = {
+  weeklyCsvUrl:   "",   // ← paste published-CSV link for the Weekly tab
+  webinarsCsvUrl: "",   // ← paste published-CSV link for the Webinars tab
+  targets: { total: 20, paid: 10, free: 10, incomeGBP: 2000, followers: 150 },
+  cohortStart: "2026-09-15",   // first session (Tue 15 Sep)
+  currency: "£"
+};
+
+/* ---------------- sample data (fallback) ---------------- */
+const SAMPLE_WEEKLY = [
+  { date: "2026-06-26", paid: 0, free: 0, income: 0,   followers: 78, posts: 1, engagement: 12 },
+  { date: "2026-07-03", paid: 1, free: 0, income: 250, followers: 81, posts: 2, engagement: 26 },
+  { date: "2026-07-10", paid: 1, free: 1, income: 250, followers: 84, posts: 2, engagement: 31 },
+  { date: "2026-07-17", paid: 2, free: 1, income: 500, followers: 89, posts: 3, engagement: 54 },
+  { date: "2026-07-22", paid: 3, free: 2, income: 750, followers: 94, posts: 2, engagement: 38 }
+];
+const SAMPLE_WEBINARS = [
+  { name: "Confidence webinar", date: "2026-07-21", regs: 34, attended: 19, signups: 2 },
+  { name: "August webinar",     date: "2026-08-25", regs: null, attended: null, signups: null }
+];
+
+/* ---------------- helpers ---------------- */
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const fmtInt = n => (n == null || isNaN(n)) ? "–" : Math.round(n).toLocaleString("en-GB");
+const fmtGBP = n => (n == null || isNaN(n)) ? "–" : CONFIG.currency + Math.round(n).toLocaleString("en-GB");
+const parseDate = s => { const d = new Date(String(s).trim()); return isNaN(d) ? null : d; };
+const fmtDate = d => d ? d.toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : "–";
+const num = v => {
+  if (v == null) return null;
+  const s = String(v).replace(/[£$€,\s]/g, "");
+  if (s === "") return null;
+  const n = Number(s);
+  return isNaN(n) ? null : n;
+};
+
+function parseCSV(text) {
+  const rows = []; let row = [], field = "", inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQ) {
+      if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else inQ = false; }
+      else field += c;
+    } else if (c === '"') inQ = true;
+    else if (c === ",") { row.push(field); field = ""; }
+    else if (c === "\n" || c === "\r") {
+      if (c === "\r" && text[i + 1] === "\n") i++;
+      row.push(field); field = "";
+      if (row.some(f => f.trim() !== "")) rows.push(row);
+      row = [];
+    } else field += c;
+  }
+  row.push(field);
+  if (row.some(f => f.trim() !== "")) rows.push(row);
+  if (!rows.length) return [];
+  const headers = rows[0].map(h => h.trim().toLowerCase());
+  return rows.slice(1).map(r => {
+    const o = {};
+    headers.forEach((h, i) => { o[h] = (r[i] ?? "").trim(); });
+    return o;
+  });
+}
+
+async function fetchCSV(url) {
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  return parseCSV(await res.text());
+}
+
+/* ---------------- tooltip ---------------- */
+const tt = document.getElementById("tooltip");
+function showTooltip(x, y, title, rows) {
+  tt.replaceChildren();
+  const t = document.createElement("div"); t.className = "tt-title"; t.textContent = title; tt.appendChild(t);
+  rows.forEach(r => {
+    const div = document.createElement("div"); div.className = "tt-row";
+    const key = document.createElement("span"); key.className = "tt-key"; key.style.background = r.color || "transparent";
+    const val = document.createElement("span"); val.className = "tt-val"; val.textContent = r.value;
+    const name = document.createElement("span"); name.className = "tt-name"; name.textContent = r.name;
+    div.append(key, val, name); tt.appendChild(div);
+  });
+  tt.style.display = "block";
+  const rect = tt.getBoundingClientRect();
+  const px = Math.min(x + 14, window.innerWidth - rect.width - 10);
+  const py = Math.min(y + 14, window.innerHeight - rect.height - 10);
+  tt.style.left = px + "px"; tt.style.top = py + "px";
+}
+function hideTooltip() { tt.style.display = "none"; }
+
+/* ---------------- svg helpers ---------------- */
+const SVGNS = "http://www.w3.org/2000/svg";
+function svgEl(tag, attrs) {
+  const e = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+function niceMax(v) {
+  if (v <= 0) return 1;
+  const p = Math.pow(10, Math.floor(Math.log10(v)));
+  for (const m of [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]) { if (m * p >= v) return m * p; }
+  return 10 * p;
+}
+function yTicks(max, pref = 4) {
+  // prefer tick steps that land on clean values
+  for (const n of [pref, 5, 3, 2, 6]) {
+    const step = max / n;
+    if (step >= 1 && Number.isInteger(step)) return Array.from({ length: n + 1 }, (_, i) => step * i);
+    if (step < 1 && Number.isInteger(step * 2)) return Array.from({ length: n + 1 }, (_, i) => step * i);
+  }
+  const step = max / pref;
+  return Array.from({ length: pref + 1 }, (_, i) => Math.round(step * i * 100) / 100);
+}
+const fmtTick = v => Number.isInteger(v) ? fmtInt(v) : String(v);
+
+/* ---------------- line chart ---------------- */
+function renderLineChart(mount, opts) {
+  mount.replaceChildren();
+  const W = Math.max(mount.clientWidth, 300);
+  const H = opts.height || 230;
+  const padR = opts.endLabels ? 84 : 20;
+  const pad = { l: 40, r: padR, t: 12, b: 26 };
+  const iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H, role: "img" });
+  if (opts.ariaLabel) svg.setAttribute("aria-label", opts.ariaLabel);
+
+  const dates = opts.dates;
+  const t0 = dates[0].getTime(), t1 = dates[dates.length - 1].getTime();
+  const xOf = d => dates.length === 1 ? pad.l + iw / 2 : pad.l + (d.getTime() - t0) / (t1 - t0 || 1) * iw;
+  let maxV = 0;
+  opts.series.forEach(s => s.values.forEach(v => { if (v != null && v > maxV) maxV = v; }));
+  if (opts.targetY) maxV = Math.max(maxV, opts.targetY);
+  const yMax = niceMax(maxV * 1.05);
+  const yOf = v => pad.t + ih - (v / yMax) * ih;
+
+  yTicks(yMax).forEach(v => {
+    svg.appendChild(svgEl("line", { x1: pad.l, x2: pad.l + iw, y1: yOf(v), y2: yOf(v), stroke: css("--grid"), "stroke-width": 1 }));
+    const t = svgEl("text", { x: pad.l - 7, y: yOf(v) + 3.5, "text-anchor": "end", "font-size": 10.5, fill: css("--text-muted") });
+    t.style.fontVariantNumeric = "tabular-nums";
+    t.textContent = opts.yFmt ? opts.yFmt(v) : fmtTick(v);
+    svg.appendChild(t);
+  });
+  svg.appendChild(svgEl("line", { x1: pad.l, x2: pad.l + iw, y1: pad.t + ih, y2: pad.t + ih, stroke: css("--baseline"), "stroke-width": 1 }));
+
+  // x labels: first, middle, last
+  const idxs = dates.length <= 3 ? dates.map((_, i) => i) : [0, Math.floor((dates.length - 1) / 2), dates.length - 1];
+  [...new Set(idxs)].forEach(i => {
+    const t = svgEl("text", { x: xOf(dates[i]), y: pad.t + ih + 17, "text-anchor": i === 0 ? "start" : (i === dates.length - 1 ? "end" : "middle"), "font-size": 10.5, fill: css("--text-muted") });
+    t.textContent = fmtDate(dates[i]);
+    svg.appendChild(t);
+  });
+
+  // target line
+  if (opts.targetY) {
+    svg.appendChild(svgEl("line", { x1: pad.l, x2: pad.l + iw, y1: yOf(opts.targetY), y2: yOf(opts.targetY), stroke: css("--text-muted"), "stroke-width": 1 }));
+    const t = svgEl("text", { x: pad.l + iw + 6, y: yOf(opts.targetY) + 3.5, "font-size": 10.5, fill: css("--text-muted") });
+    t.textContent = opts.targetLabel || ("Target " + fmtInt(opts.targetY));
+    svg.appendChild(t);
+  }
+
+  // series
+  opts.series.forEach(s => {
+    const pts = dates.map((d, i) => s.values[i] == null ? null : [xOf(d), yOf(s.values[i])]).filter(Boolean);
+    if (!pts.length) return;
+    const dStr = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+    svg.appendChild(svgEl("path", { d: dStr, fill: "none", stroke: s.color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+    const last = pts[pts.length - 1];
+    svg.appendChild(svgEl("circle", { cx: last[0], cy: last[1], r: 4, fill: s.color, stroke: css("--surface-1"), "stroke-width": 2 }));
+    if (opts.endLabels) {
+      const lastVal = [...s.values].reverse().find(v => v != null);
+      const tv = svgEl("text", { x: last[0] + 9, y: last[1] + 3.5, "font-size": 11.5, "font-weight": 650, fill: css("--text-primary") });
+      tv.textContent = opts.yFmt ? opts.yFmt(lastVal) : fmtInt(lastVal);
+      svg.appendChild(tv);
+      const tn = svgEl("text", { x: last[0] + 9 + (String(tv.textContent).length * 7) + 4, y: last[1] + 3.5, "font-size": 10.5, fill: css("--text-secondary") });
+      tn.textContent = s.name;
+      svg.appendChild(tn);
+    }
+  });
+
+  // crosshair + hover
+  const hair = svgEl("line", { y1: pad.t, y2: pad.t + ih, stroke: css("--baseline"), "stroke-width": 1, visibility: "hidden" });
+  svg.appendChild(hair);
+  const capture = svgEl("rect", { x: pad.l, y: pad.t, width: iw, height: ih, fill: "transparent" });
+  capture.style.cursor = "crosshair";
+  const onMove = ev => {
+    const bb = svg.getBoundingClientRect();
+    const mx = (ev.clientX - bb.left) * (W / bb.width);
+    let best = 0, bd = Infinity;
+    dates.forEach((d, i) => { const dx = Math.abs(xOf(d) - mx); if (dx < bd) { bd = dx; best = i; } });
+    const x = xOf(dates[best]);
+    hair.setAttribute("x1", x); hair.setAttribute("x2", x); hair.setAttribute("visibility", "visible");
+    showTooltip(ev.clientX, ev.clientY, fmtDate(dates[best]), opts.series.map(s => ({
+      color: s.color, name: s.name,
+      value: s.values[best] == null ? "–" : (opts.yFmt ? opts.yFmt(s.values[best]) : fmtInt(s.values[best]))
+    })));
+  };
+  capture.addEventListener("pointermove", onMove);
+  capture.addEventListener("pointerleave", () => { hair.setAttribute("visibility", "hidden"); hideTooltip(); });
+  svg.appendChild(capture);
+  mount.appendChild(svg);
+}
+
+/* ---------------- column chart (single series) ---------------- */
+function renderColumns(mount, opts) {
+  mount.replaceChildren();
+  const W = Math.max(mount.clientWidth, 300);
+  const H = opts.height || 120;
+  const pad = { l: 34, r: 12, t: 14, b: 22 };
+  const iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H, role: "img", "aria-label": opts.ariaLabel || "" });
+  const vals = opts.values, n = vals.length;
+  const yMax = niceMax(Math.max(...vals.map(v => v || 0)) * 1.1 || 1);
+  const yOf = v => pad.t + ih - (v / yMax) * ih;
+  yTicks(yMax, 2).forEach(v => {
+    svg.appendChild(svgEl("line", { x1: pad.l, x2: pad.l + iw, y1: yOf(v), y2: yOf(v), stroke: css("--grid"), "stroke-width": 1 }));
+    const t = svgEl("text", { x: pad.l - 6, y: yOf(v) + 3.5, "text-anchor": "end", "font-size": 10, fill: css("--text-muted") });
+    t.style.fontVariantNumeric = "tabular-nums";
+    t.textContent = fmtTick(v);
+    svg.appendChild(t);
+  });
+  svg.appendChild(svgEl("line", { x1: pad.l, x2: pad.l + iw, y1: pad.t + ih, y2: pad.t + ih, stroke: css("--baseline"), "stroke-width": 1 }));
+
+  const band = iw / n, bw = Math.min(24, band * 0.55);
+  const maxI = vals.indexOf(Math.max(...vals.map(v => v || 0)));
+  vals.forEach((v, i) => {
+    const cx = pad.l + band * i + band / 2;
+    const x = cx - bw / 2, y = yOf(v || 0), h = pad.t + ih - y;
+    const r = Math.min(4, h);
+    const dPath = h <= 0
+      ? null
+      : `M ${x} ${pad.t + ih} L ${x} ${y + r} Q ${x} ${y} ${x + r} ${y} L ${x + bw - r} ${y} Q ${x + bw} ${y} ${x + bw} ${y + r} L ${x + bw} ${pad.t + ih} Z`;
+    if (dPath) {
+      const bar = svgEl("path", { d: dPath, fill: opts.color });
+      const hit = svgEl("rect", { x: cx - band / 2, y: pad.t, width: band, height: ih, fill: "transparent" });
+      hit.addEventListener("pointermove", ev => {
+        bar.setAttribute("opacity", "0.8");
+        showTooltip(ev.clientX, ev.clientY, opts.labels[i], [{ color: opts.color, name: opts.name, value: fmtInt(v) }]);
+      });
+      hit.addEventListener("pointerleave", () => { bar.removeAttribute("opacity"); hideTooltip(); });
+      svg.appendChild(bar); svg.appendChild(hit);
+    }
+    // selective labels: max + latest only
+    if ((i === maxI || i === n - 1) && v != null) {
+      const t = svgEl("text", { x: cx, y: y - 5, "text-anchor": "middle", "font-size": 10.5, "font-weight": 650, fill: css("--text-primary") });
+      t.textContent = fmtInt(v);
+      svg.appendChild(t);
+    }
+    if (i === 0 || i === n - 1) {
+      const t = svgEl("text", { x: cx, y: pad.t + ih + 15, "text-anchor": "middle", "font-size": 10, fill: css("--text-muted") });
+      t.textContent = opts.labels[i];
+      svg.appendChild(t);
+    }
+  });
+  mount.appendChild(svg);
+}
+
+/* ---------------- webinar funnel (horizontal ordinal bars) ---------------- */
+function renderFunnel(mount, webinars) {
+  mount.replaceChildren();
+  const done = webinars.filter(w => w.regs != null);
+  if (!done.length) return;
+  const W = Math.max(mount.clientWidth, 300);
+  const stages = [
+    { key: "regs",     name: "Registered", color: css("--ord-1") },
+    { key: "attended", name: "Attended",   color: css("--ord-2") },
+    { key: "signups",  name: "Signed up",  color: css("--ord-3") }
+  ];
+  const rowH = 22, groupGap = 20, labelW = 86, valW = 60;
+  const H = done.length * (stages.length * rowH + groupGap + 18) + 4;
+  const iw = W - labelW - valW - 10;
+  const maxV = niceMax(Math.max(...done.map(w => w.regs || 0)) || 1);
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H, role: "img", "aria-label": "Webinar funnel: registrations, attendance and sign-ups per webinar" });
+  let y = 2;
+  done.forEach(w => {
+    const gt = svgEl("text", { x: 0, y: y + 11, "font-size": 12, "font-weight": 650, fill: css("--text-primary") });
+    gt.textContent = w.name + (w.date ? "  ·  " + fmtDate(w.date) : "");
+    svg.appendChild(gt);
+    y += 18;
+    stages.forEach(st => {
+      const v = w[st.key] || 0;
+      const bw = Math.max((v / maxV) * iw, 0);
+      const barH = 16, by = y + (rowH - barH) / 2;
+      const lt = svgEl("text", { x: labelW - 8, y: by + barH / 2 + 3.5, "text-anchor": "end", "font-size": 11, fill: css("--text-secondary") });
+      lt.textContent = st.name;
+      svg.appendChild(lt);
+      if (bw > 0) {
+        const r = Math.min(4, bw);
+        const d = `M ${labelW} ${by} L ${labelW + bw - r} ${by} Q ${labelW + bw} ${by} ${labelW + bw} ${by + r} L ${labelW + bw} ${by + barH - r} Q ${labelW + bw} ${by + barH} ${labelW + bw - r} ${by + barH} L ${labelW} ${by + barH} Z`;
+        const bar = svgEl("path", { d, fill: st.color });
+        svg.appendChild(bar);
+        const hit = svgEl("rect", { x: 0, y: y, width: W, height: rowH, fill: "transparent" });
+        hit.addEventListener("pointermove", ev => {
+          bar.setAttribute("opacity", "0.85");
+          const pct = st.key === "regs" ? "" : "  (" + Math.round(v / (w.regs || 1) * 100) + "% of registered)";
+          showTooltip(ev.clientX, ev.clientY, w.name, [{ color: st.color, name: st.name + pct, value: fmtInt(v) }]);
+        });
+        hit.addEventListener("pointerleave", () => { bar.removeAttribute("opacity"); hideTooltip(); });
+        svg.appendChild(hit);
+      }
+      const vt = svgEl("text", { x: labelW + bw + 7, y: by + barH / 2 + 3.5, "font-size": 11.5, "font-weight": 650, fill: css("--text-primary") });
+      vt.style.fontVariantNumeric = "tabular-nums";
+      vt.textContent = fmtInt(v);
+      svg.appendChild(vt);
+      y += rowH;
+    });
+    y += groupGap;
+  });
+  mount.appendChild(svg);
+}
+
+/* ---------------- sparkline ---------------- */
+function sparkline(values, color) {
+  const W = 78, H = 26, n = values.length;
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H, "aria-hidden": "true" });
+  if (n < 2) return svg;
+  const min = Math.min(...values), max = Math.max(...values), span = (max - min) || 1;
+  const pts = values.map((v, i) => [2 + i * (W - 8) / (n - 1), H - 4 - (v - min) / span * (H - 8)]);
+  const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  svg.appendChild(svgEl("path", { d, fill: "none", stroke: css("--text-muted"), "stroke-width": 1.5, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+  const last = pts[n - 1];
+  svg.appendChild(svgEl("circle", { cx: last[0], cy: last[1], r: 3, fill: color, stroke: css("--surface-1"), "stroke-width": 1.5 }));
+  return svg;
+}
+
+/* ---------------- stat tiles ---------------- */
+function tile(label, valueHTML, deltaRows, sparkVals, sparkColor) {
+  const d = document.createElement("div"); d.className = "tile";
+  const l = document.createElement("div"); l.className = "t-label"; l.textContent = label;
+  const v = document.createElement("div"); v.className = "t-value";
+  v.append(...valueHTML);
+  const foot = document.createElement("div"); foot.className = "t-foot";
+  const delta = document.createElement("div"); delta.className = "t-delta";
+  deltaRows.forEach(r => delta.appendChild(r));
+  foot.appendChild(delta);
+  if (sparkVals && sparkVals.length > 1) foot.appendChild(sparkline(sparkVals, sparkColor));
+  d.append(l, v, foot);
+  return d;
+}
+function valFrag(main, den) {
+  const frag = [document.createTextNode(main)];
+  if (den) { const s = document.createElement("span"); s.className = "t-den"; s.textContent = " " + den; frag.push(s); }
+  return frag;
+}
+function deltaFrag(diff, fmt, suffix, upIsGood = true) {
+  const span = document.createElement("span");
+  if (diff == null || diff === 0) { span.textContent = "No change " + suffix; span.style.color = "var(--text-muted)"; return span; }
+  const dir = document.createElement("span");
+  dir.className = (diff > 0) === upIsGood ? "up" : "down";
+  dir.textContent = (diff > 0 ? "▲ +" : "▼ −") + fmt(Math.abs(diff));
+  span.append(dir, document.createTextNode(" " + suffix));
+  return span;
+}
+
+/* ---------------- meters ---------------- */
+function meter(label, value, target, fmt) {
+  const row = document.createElement("div"); row.className = "meter";
+  const l = document.createElement("span"); l.className = "m-label"; l.textContent = label;
+  const track = document.createElement("div"); track.className = "m-track";
+  const fill = document.createElement("div"); fill.className = "m-fill";
+  const pct = Math.max(0, Math.min(100, (value / target) * 100));
+  fill.style.width = pct + "%";
+  if (pct >= 99.5) fill.style.borderRadius = "5px";
+  track.appendChild(fill);
+  const v = document.createElement("span"); v.className = "m-val";
+  v.appendChild(document.createTextNode(fmt(value) + " "));
+  const of = document.createElement("span"); of.textContent = "/ " + fmt(target);
+  v.appendChild(of);
+  row.append(l, track, v);
+  return row;
+}
+
+/* ---------------- tables ---------------- */
+function buildTable(headers, rows) {
+  const t = document.createElement("table"); t.className = "data-table";
+  const thead = document.createElement("thead"); const hr = document.createElement("tr");
+  headers.forEach(h => { const th = document.createElement("th"); th.textContent = h; hr.appendChild(th); });
+  thead.appendChild(hr); t.appendChild(thead);
+  const tb = document.createElement("tbody");
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+    r.forEach(c => { const td = document.createElement("td"); td.textContent = c; tr.appendChild(td); });
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  return t;
+}
+
+/* ---------------- legends ---------------- */
+function legendInto(mountId, items, shape) {
+  const m = document.getElementById(mountId); m.replaceChildren();
+  items.forEach(it => {
+    const k = document.createElement("span"); k.className = "key";
+    const sw = document.createElement("span");
+    sw.className = shape === "line" ? "swatch-line" : "swatch-rect";
+    sw.style.background = it.color;
+    const n = document.createElement("span"); n.textContent = it.name;
+    k.append(sw, n); m.appendChild(k);
+  });
+}
+
+/* ---------------- main render ---------------- */
+let DATA = { weekly: [], webinars: [], live: false };
+
+function render() {
+  const wk = DATA.weekly, T = CONFIG.targets;
+  if (!wk.length) return;
+  const dates = wk.map(r => parseDate(r.date));
+  const latest = wk[wk.length - 1], prev = wk.length > 1 ? wk[wk.length - 2] : null;
+  const total = (latest.paid || 0) + (latest.free || 0);
+  const prevTotal = prev ? (prev.paid || 0) + (prev.free || 0) : null;
+
+  /* header */
+  const start = parseDate(CONFIG.cohortStart);
+  const days = Math.max(0, Math.ceil((start - new Date()) / 86400000));
+  const sub = document.getElementById("subline");
+  sub.replaceChildren();
+  const strong = document.createElement("strong"); strong.textContent = days + " days";
+  sub.append(strong, document.createTextNode(" to cohort start (Tue 15 Sep) · sessions 15, 17, 22, 24 Sep · updated " + fmtDate(dates[dates.length - 1])));
+
+  const badge = document.getElementById("dataBadge");
+  const badgeText = document.getElementById("dataBadgeText");
+  badge.classList.toggle("sample", !DATA.live);
+  badgeText.textContent = DATA.live ? "Live from Google Sheets" : "Sample data — not yet connected";
+
+  const note = document.getElementById("footNote");
+  note.replaceChildren();
+  if (!DATA.live) {
+    note.append(
+      document.createTextNode("To go live: create the Google Sheet from the two template CSVs, publish each tab to the web as CSV, and paste the two links into "),
+      Object.assign(document.createElement("code"), { textContent: "CONFIG" }),
+      document.createTextNode(" at the top of this file's script. Full steps are in SETUP.md.")
+    );
+  } else {
+    note.textContent = "Data refreshes from the published Google Sheet on every page load. Published sheets can take a few minutes to reflect new edits.";
+  }
+
+  /* KPI tiles */
+  const kpis = document.getElementById("kpis");
+  kpis.replaceChildren();
+  kpis.appendChild(tile("Participants signed up",
+    valFrag(fmtInt(total), "/ " + T.total),
+    [deltaFrag(prevTotal == null ? null : total - prevTotal, fmtInt, "vs last update")],
+    wk.map(r => (r.paid || 0) + (r.free || 0)), css("--series-1")));
+  kpis.appendChild(tile("Income",
+    valFrag(fmtGBP(latest.income), "/ " + fmtGBP(T.incomeGBP)),
+    [deltaFrag(prev == null ? null : (latest.income || 0) - (prev.income || 0), n => fmtGBP(n).replace("£", "£"), "vs last update")],
+    wk.map(r => r.income || 0), css("--series-1")));
+  kpis.appendChild(tile("LinkedIn followers",
+    valFrag(fmtInt(latest.followers), "/ " + T.followers),
+    [deltaFrag(prev == null ? null : (latest.followers || 0) - (prev.followers || 0), fmtInt, "vs last update")],
+    wk.map(r => r.followers || 0), css("--series-1")));
+  kpis.appendChild(tile("Posts this week",
+    valFrag(fmtInt(latest.posts), null),
+    [deltaFrag(prev == null ? null : (latest.posts || 0) - (prev.posts || 0), fmtInt, "vs prior week")],
+    wk.map(r => r.posts || 0), css("--series-1")));
+
+  /* Card A: places & income */
+  const meters = document.getElementById("salesMeters");
+  meters.replaceChildren();
+  meters.appendChild(meter("Paid places", latest.paid || 0, T.paid, fmtInt));
+  meters.appendChild(meter("Free places", latest.free || 0, T.free, fmtInt));
+  meters.appendChild(meter("Income", latest.income || 0, T.incomeGBP, fmtGBP));
+  legendInto("salesLegend", [
+    { name: "Paid (cumulative)", color: css("--series-1") },
+    { name: "Free (cumulative)", color: css("--series-2") }
+  ], "line");
+  renderLineChart(document.getElementById("salesChart"), {
+    dates,
+    series: [
+      { name: "Paid", color: css("--series-1"), values: wk.map(r => r.paid) },
+      { name: "Free", color: css("--series-2"), values: wk.map(r => r.free) }
+    ],
+    endLabels: true, height: 210,
+    ariaLabel: "Cumulative paid and free sign-ups over time"
+  });
+  setTableBody("card-sales",
+    ["Date", "Paid", "Free", "Total", "Income"],
+    wk.map((r, i) => [fmtDate(dates[i]), fmtInt(r.paid), fmtInt(r.free), fmtInt((r.paid || 0) + (r.free || 0)), fmtGBP(r.income)]));
+
+  /* Card B: followers */
+  renderLineChart(document.getElementById("followersChart"), {
+    dates,
+    series: [{ name: "Followers", color: css("--series-1"), values: wk.map(r => r.followers) }],
+    targetY: T.followers, targetLabel: "Target " + T.followers,
+    endLabels: true, height: 240,
+    ariaLabel: "LinkedIn company page followers over time against target of " + T.followers
+  });
+  setTableBody("card-followers",
+    ["Date", "Followers", "Weekly change"],
+    wk.map((r, i) => [fmtDate(dates[i]), fmtInt(r.followers), i ? fmtInt((r.followers || 0) - (wk[i - 1].followers || 0)) : "–"]));
+
+  /* Card C: webinars */
+  legendInto("webinarLegend", [
+    { name: "Registered", color: css("--ord-1") },
+    { name: "Attended", color: css("--ord-2") },
+    { name: "Signed up", color: css("--ord-3") }
+  ], "rect");
+  const webs = DATA.webinars.map(w => ({ ...w, date: parseDate(w.date) }));
+  renderFunnel(document.getElementById("webinarChart"), webs);
+  const upcoming = webs.filter(w => w.regs == null && w.date && w.date > new Date());
+  const upEl = document.getElementById("webinarUpcoming");
+  upEl.replaceChildren();
+  upcoming.forEach(w => {
+    const p = document.createElement("p"); p.className = "upcoming";
+    const s = document.createElement("strong"); s.textContent = w.name;
+    const promo = new Date(w.date.getTime() - 14 * 86400000);
+    p.append(s, document.createTextNode(" — scheduled " + fmtDate(w.date) + ". Marketing window opens ~" + fmtDate(promo) + " (2-week lead)."));
+    upEl.appendChild(p);
+  });
+  setTableBody("card-webinars",
+    ["Webinar", "Date", "Registered", "Attended", "Signed up", "Reg → signup"],
+    webs.map(w => [w.name, fmtDate(w.date), fmtInt(w.regs), fmtInt(w.attended), fmtInt(w.signups),
+      w.regs ? Math.round((w.signups || 0) / w.regs * 100) + "%" : "–"]));
+
+  /* Card D: posting */
+  const wkLabels = dates.map(fmtDate);
+  renderColumns(document.getElementById("postsChart"), {
+    values: wk.map(r => r.posts || 0), labels: wkLabels, color: css("--series-1"),
+    name: "Posts", height: 118, ariaLabel: "LinkedIn posts published per week"
+  });
+  renderColumns(document.getElementById("engagementChart"), {
+    values: wk.map(r => r.engagement || 0), labels: wkLabels, color: css("--series-2"),
+    name: "Engagement", height: 118, ariaLabel: "LinkedIn engagement (reactions plus comments) per week"
+  });
+  setTableBody("card-posting",
+    ["Week ending", "Posts", "Engagement"],
+    wk.map((r, i) => [fmtDate(dates[i]), fmtInt(r.posts), fmtInt(r.engagement)]));
+}
+
+function setTableBody(cardId, headers, rows) {
+  const card = document.getElementById(cardId);
+  const holder = card.querySelector(".body-table");
+  holder.replaceChildren(buildTable(headers, rows));
+}
+
+/* table toggles */
+document.querySelectorAll(".card").forEach(card => {
+  const btn = card.querySelector(".tbl-btn");
+  btn.addEventListener("click", () => {
+    const showTable = btn.getAttribute("aria-pressed") !== "true";
+    btn.setAttribute("aria-pressed", String(showTable));
+    btn.textContent = showTable ? "Chart" : "Table";
+    card.querySelector(".body-chart").classList.toggle("hidden", showTable);
+    card.querySelector(".body-table").classList.toggle("hidden", !showTable);
+  });
+});
+
+/* theme toggle */
+document.getElementById("themeBtn").addEventListener("click", () => {
+  const root = document.documentElement;
+  const current = root.getAttribute("data-theme") ||
+    (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  root.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+  render();
+});
+
+/* resize re-render */
+let rz;
+window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(render, 150); });
+
+/* ---------------- load ---------------- */
+function normaliseWeekly(rows) {
+  return rows.map(r => ({
+    date: r.date, paid: num(r.paid), free: num(r.free), income: num(r.income),
+    followers: num(r.followers), posts: num(r.posts), engagement: num(r.engagement)
+  })).filter(r => parseDate(r.date)).sort((a, b) => parseDate(a.date) - parseDate(b.date));
+}
+function normaliseWebinars(rows) {
+  return rows.map(r => ({
+    name: r.webinar || r.name || "Webinar", date: r.date,
+    regs: num(r.registrations), attended: num(r.attended), signups: num(r.signups)
+  }));
+}
+
+async function load() {
+  if (CONFIG.weeklyCsvUrl && CONFIG.webinarsCsvUrl) {
+    try {
+      const [wk, wb] = await Promise.all([fetchCSV(CONFIG.weeklyCsvUrl), fetchCSV(CONFIG.webinarsCsvUrl)]);
+      const weekly = normaliseWeekly(wk);
+      if (weekly.length) {
+        DATA = { weekly, webinars: normaliseWebinars(wb), live: true };
+        render();
+        return;
+      }
+    } catch (e) {
+      console.warn("Live fetch failed, falling back to sample data:", e);
+    }
+  }
+  DATA = { weekly: normaliseWeekly(SAMPLE_WEEKLY.map(r => ({ ...r }))), webinars: SAMPLE_WEBINARS.map(w => ({ ...w })), live: false };
+  render();
+}
+load();
+</script>
+</body>
+</html>
