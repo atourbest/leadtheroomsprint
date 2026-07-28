@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're In — Lead the Room Sprint</title>
+<meta name="description" content="Welcome to the Lead the Room Sprint. Here's everything you need before Lab One.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1029;              /* deep navy page background */
+    --bg-soft: #12142f;
+    --card: #23264a;            /* raised navy card */
+    --card-soft: #1d2040;
+    --line: rgba(255,255,255,.08);
+    --text: #ffffff;
+    --muted: #9aa1c2;           /* lavender-gray body copy */
+    --accent: #ed2e5c;          /* crimson/pink accent */
+    --accent-soft: #ff5b7f;
+    --orange: #f89c2e;
+    --grad: linear-gradient(90deg, #e02f75 0%, #f05a3c 55%, #f9a03b 100%);
+    --grad-vert: linear-gradient(160deg, #e02f75 0%, #f9a03b 100%);
+    --radius: 20px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 90px 0; }
+
+  /* ---------- shared type ---------- */
+  .eyebrow {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  h1, h2 {
+    font-weight: 800;
+    letter-spacing: -.02em;
+    line-height: 1.12;
+  }
+  h1 { font-size: clamp(36px, 6.5vw, 58px); }
+  h1 .mark {
+    background: var(--grad);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .lead { color: var(--muted); font-size: 19px; margin-top: 22px; }
+  .center { text-align: center; }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-block;
+    background: var(--grad);
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 18px 48px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 0 40px rgba(224, 47, 117, .35);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 0 55px rgba(224, 47, 117, .5); }
+
+  /* ---------- logotype ---------- */
+  .logotype {
+    text-align: center;
+    padding: 28px 24px 0;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+  }
+  .logotype .mark {
+    background: var(--grad);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ---------- hero ---------- */
+  .hero { padding-top: 45px; padding-bottom: 45px; text-align: center; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 10px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 36px;
+  }
+  .badge .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #2ecc71;
+    box-shadow: 0 0 10px #2ecc71;
+  }
+
+  /* ---------- video placeholder ---------- */
+  .media-placeholder {
+    background: var(--card);
+    border: 1px dashed rgba(255,255,255,.2);
+    border-radius: var(--radius);
+    aspect-ratio: 16/9;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px;
+    color: var(--muted); font-weight: 600;
+    margin-top: 48px;
+  }
+  .media-placeholder .play {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--grad-vert);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 30px rgba(224,47,117,.4);
+  }
+  .media-placeholder .play svg { margin-left: 5px; }
+
+  /* ---------- step cards ---------- */
+  .step-card {
+    background: #ffffff;
+    color: #111111;
+    border-radius: var(--radius);
+    padding: 36px;
+    margin-top: 36px;
+    text-align: left;
+  }
+  .step-card h2 { color: #111111; }
+  .step-banner {
+    background: var(--grad-vert);
+    border-radius: 14px;
+    height: 150px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 34px;
+  }
+  .step-banner svg { width: 64px; height: 64px; }
+  .step-card .eyebrow { margin-bottom: 10px; color: var(--orange); }
+  .step-card h2 { font-size: clamp(26px, 4.2vw, 34px); margin-bottom: 16px; }
+  .step-card p { color: #111111; font-size: 18px; margin-top: 16px; }
+  .step-card p strong { color: #111111; }
+  .step-card .btn-wrap { text-align: center; margin-top: 30px; }
+
+  /* ---------- date box (step 2) ---------- */
+  .date-box {
+    background: #f3f4f9;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-top: 24px;
+    color: #111111;
+    font-size: 19px; font-weight: 700;
+  }
+  .date-box .cal { margin-right: 10px; }
+  .date-box .sub { display: block; color: #111111; font-size: 15px; font-weight: 500; margin-top: 4px; }
+
+  /* ---------- footer ---------- */
+  footer { text-align: center; padding: 40px 0 60px; color: var(--muted); font-size: 15px; }
+
+  @media (max-width: 600px) {
+    section { padding: 64px 0; }
+    .step-card { padding: 28px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LOGOTYPE ============ -->
+<header class="logotype">Lead the Room <span class="mark">Sprint</span></header>
+
+<!-- ============ 1. HERO + WELCOME VIDEO ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="badge"><span class="dot"></span> Congratulations — Payment Confirmed</div>
+    <h1><span class="mark">You're In.</span> Here's Everything You Need Before Day One.</h1>
+    <p class="lead">Welcome to the Lead the Room Sprint. Here's exactly what to do right now so you don't miss a thing.</p>
+
+    <!-- WELCOME VIDEO: expects welcome.mp4 in this same folder -->
+    <video controls preload="metadata" playsinline style="width:100%; aspect-ratio:16/9; border-radius:20px; margin-top:48px; display:block; background:var(--card); object-fit:cover;">
+      <source src="welcome.mp4" type="video/mp4">
+      Your browser doesn't support embedded video. <a href="welcome.mp4" style="color:var(--accent-soft);">Download the welcome video</a> instead.
+    </video>
+  </div>
+</section>
+
+<!-- ============ 2. STEP 1: CHECK YOUR INBOX ============ -->
+<section style="padding-top:0; padding-bottom:0;">
+  <div class="container">
+    <div class="step-card">
+      <div class="step-banner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      </div>
+      <p class="eyebrow">Step 1:</p>
+      <h2>Check Your Inbox</h2>
+      <p>Your confirmation email has everything &mdash; your session times and your community login.</p>
+      <p>Open it now, save it, and make sure it didn't land in spam. Everything else on this page starts there.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. STEP 2: ADD TO CALENDAR ============ -->
+<section style="padding-top:0; padding-bottom:0;">
+  <div class="container">
+    <div class="step-card">
+      <div class="step-banner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01" stroke-linecap="round" stroke-width="2.4"/></svg>
+      </div>
+      <p class="eyebrow">Step 2:</p>
+      <h2>Add the Labs to Your Calendar</h2>
+      <p>The Sprint has 4 virtual live labs, and the people who show up to every lab are the ones who walk away with real results. Add all four labs to your calendar right now.</p>
+      <div class="date-box">
+        <span class="cal">📅</span>Lab 1 &middot; Tuesday, September 15
+        <span class="sub">Live lab: 5:00 PM BST &middot; 9:00 AM PST &middot; 90 minutes</span>
+        <span class="sub">Bonus session (optional): 6:30 PM BST &middot; 10:30 AM PST &middot; 30 minutes</span>
+      </div>
+      <div class="date-box">
+        <span class="cal">📅</span>Lab 2 &middot; Thursday, September 17
+        <span class="sub">Live lab: 5:00 PM BST &middot; 9:00 AM PST &middot; 90 minutes</span>
+        <span class="sub">Bonus session (optional): 6:30 PM BST &middot; 10:30 AM PST &middot; 30 minutes</span>
+      </div>
+      <div class="date-box">
+        <span class="cal">📅</span>Lab 3 &middot; Tuesday, September 22
+        <span class="sub">Live lab: 5:00 PM BST &middot; 9:00 AM PST &middot; 90 minutes</span>
+        <span class="sub">Bonus session (optional): 6:30 PM BST &middot; 10:30 AM PST &middot; 30 minutes</span>
+      </div>
+      <div class="date-box">
+        <span class="cal">📅</span>Lab 4 &middot; Thursday, September 24
+        <span class="sub">Live lab: 5:00 PM BST &middot; 9:00 AM PST &middot; 90 minutes</span>
+        <span class="sub">Bonus session (optional): 6:30 PM BST &middot; 10:30 AM PST &middot; 30 minutes</span>
+      </div>
+      <p>You'll also notice each lab is followed by an optional 30-minute bonus session. These are extra sessions you can choose to attend if you want to amplify your impact. Make sure you put those in your calendar too. More details to come.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. STEP 3: INTRODUCE YOURSELF ============ -->
+<section style="padding-top:0; padding-bottom:45px;">
+  <div class="container">
+    <div class="step-card">
+      <div class="step-banner">
+        <svg viewBox="0 0 24 24" fill="#ffffff"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-3.2 0-8 1.6-8 4.8V21h16v-2.2c0-3.2-4.8-4.8-8-4.8z"/><path d="M18.5 11.5a3 3 0 1 0-2.6-4.5 5.5 5.5 0 0 1 0 4.4 3 3 0 0 0 2.6.1zM21 14.4c1.8.8 3 2 3 3.6V21h-4v-2.2a5.6 5.6 0 0 0-1.6-3.9 10.6 10.6 0 0 1 2.6-.5zM5.5 11.5a3 3 0 1 1 2.6-4.5 5.5 5.5 0 0 0 0 4.4 3 3 0 0 1-2.6.1zM3 14.4c-1.8.8-3 2-3 3.6V21h4v-2.2a5.6 5.6 0 0 1 1.6-3.9 10.6 10.6 0 0 0-2.6-.5z"/></svg>
+      </div>
+      <p class="eyebrow">Step 3:</p>
+      <h2>Introduce Yourself in the Community</h2>
+      <p>Take a moment to introduce yourself in the Lead the Room community.</p>
+      <p>This is where we'll be hanging out together throughout the Sprint &mdash; lab notes, video bites, and the content library live here. You'll want to request access immediately so you're ready to go before Lab One.</p>
+      <div class="btn-wrap"><a class="btn" href="https://www.skool.com/leadtheroom-4280">Introduce Yourself in the Community &rarr;</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>&copy; AT OUR BEST LTD 2026. All rights reserved.</footer>
+
+</body>
+</html>
