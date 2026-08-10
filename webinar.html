@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 3 Secrets Every Leader Can Learn to Influence Any Room — Free Live Webinar</title>
+<meta name="description" content="A free 60-minute live webinar with Jason Moore and Michele Skogerboe. Tuesday 25 August, 5:00 PM UK / 12:00 PM ET / 9:00 AM PST.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lead the Room">
+<meta property="og:title" content="The 3 Secrets Every Leader Can Learn to Influence Any Room">
+<meta property="og:description" content="A free 60-minute live webinar for leaders who lead with influence over authority. Tuesday 25 August.">
+<meta property="og:image" content="webinar-header.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The 3 Secrets Every Leader Can Learn to Influence Any Room">
+<meta name="twitter:description" content="A free 60-minute live webinar for leaders who lead with influence over authority. Tuesday 25 August.">
+<meta name="twitter:image" content="webinar-header.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1029;              /* deep navy page background */
+    --bg-soft: #12142f;
+    --card: #23264a;            /* raised navy card */
+    --card-soft: #1d2040;
+    --line: rgba(255,255,255,.08);
+    --text: #ffffff;
+    --muted: #9aa1c2;           /* lavender-gray body copy */
+    --accent: #ed2e5c;          /* crimson/pink accent */
+    --accent-soft: #ff5b7f;
+    --orange: #f89c2e;
+    --grad: linear-gradient(90deg, #e02f75 0%, #f05a3c 55%, #f9a03b 100%);
+    --grad-vert: linear-gradient(160deg, #e02f75 0%, #f9a03b 100%);
+    --radius: 20px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding-bottom: 110px; /* room for sticky CTA */
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 90px 0; }
+
+  /* ---------- shared type ---------- */
+  .eyebrow {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  h1, h2 {
+    font-weight: 800;
+    letter-spacing: -.02em;
+    line-height: 1.12;
+  }
+  h1 { font-size: clamp(36px, 6.5vw, 58px); }
+  h2 { font-size: clamp(30px, 5vw, 44px); }
+  .lead { color: var(--muted); font-size: 19px; margin-top: 22px; }
+  .center { text-align: center; }
+  .sub-orange { color: var(--orange); font-weight: 700; font-size: 20px; margin-top: 22px; }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-block;
+    background: var(--grad);
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 18px 48px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 0 40px rgba(224, 47, 117, .35);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 0 55px rgba(224, 47, 117, .5); }
+
+  /* ---------- logotype ---------- */
+  .logotype {
+    text-align: center;
+    padding: 28px 24px 0;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+  }
+  .logotype .mark {
+    background: var(--grad);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ---------- hero ---------- */
+  .hero { padding-top: 45px; text-align: center; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 10px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 36px;
+  }
+  .badge .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+  }
+  .underline-swash { position: relative; white-space: nowrap; }
+  .underline-swash svg {
+    position: absolute; left: 0; bottom: -12px; width: 100%; height: 14px;
+  }
+  .hero .btn { margin-top: 38px; }
+  .times {
+    color: var(--muted); font-weight: 600; font-size: 17px; margin-top: 26px;
+  }
+  .times strong { color: #ffffff; }
+
+  /* ---------- hero sign-up form ---------- */
+  .hero-form {
+    max-width: 600px;
+    margin: 38px auto 0;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 30px 28px;
+  }
+  .hero-form .row { display: flex; gap: 12px; }
+  .hero-form input[type="email"] {
+    flex: 1;
+    min-width: 0;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 17px 18px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 17px;
+  }
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 20px;
+    text-align: left;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.55;
+    cursor: pointer;
+  }
+  .consent input[type="checkbox"] {
+    width: 19px; height: 19px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .hero-form input[type="email"]::placeholder { color: var(--muted); }
+  .hero-form input[type="email"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(237,46,92,.2); }
+  .hero-form .btn { margin-top: 0; padding: 15px 24px; font-size: 16px; white-space: nowrap; }
+  @media (max-width: 600px) {
+    .hero-form .row { flex-direction: column; }
+    .hero-form .btn { width: 100%; }
+  }
+
+  /* ---------- learn cards ---------- */
+  .learn-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 40px 36px;
+    margin-top: 28px;
+    text-align: left;
+  }
+  .check-circle {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(46, 204, 113, .15);
+    color: #2ecc71;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 26px;
+  }
+  .learn-card h3 { font-size: 24px; font-weight: 800; line-height: 1.35; }
+  .learn-card h3 .hl { color: var(--accent); }
+
+  /* ---------- mentors ---------- */
+  .mentor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 48px;
+  }
+  .mentor-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 40px 34px;
+    text-align: center;
+  }
+  .mentor-card .photo {
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 0 0 3px var(--accent), 0 0 30px rgba(224,47,117,.3);
+  }
+  .mentor-card h3 { font-size: 24px; font-weight: 800; margin-top: 24px; }
+  .mentor-card p { color: var(--muted); font-size: 16px; margin-top: 18px; text-align: left; }
+
+  /* ---------- logo carousel ---------- */
+  .logo-carousel {
+    overflow: hidden;
+    margin-top: 28px;
+    position: relative;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  .logo-track {
+    display: flex;
+    gap: 18px;
+    width: max-content;
+    animation: logo-scroll 30s linear infinite;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .logo-carousel:hover .logo-track { animation-play-state: paused; }
+  .logo-item {
+    width: 170px; height: 76px;
+    flex-shrink: 0;
+    background: var(--card);
+    border: 1px dashed rgba(255,255,255,.2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-item img { max-width: 130px; max-height: 48px; object-fit: contain; }
+  @keyframes logo-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .form-note { color: var(--muted); font-size: 14px; margin-top: 18px; text-align: center; }
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 30px 10px 10px;
+  }
+  .form-success .big { font-size: 44px; }
+  .form-success h3 { font-size: 26px; font-weight: 800; margin-top: 14px; }
+  .form-success p { color: var(--muted); font-size: 17px; margin-top: 10px; }
+  .hp { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
+
+  /* ---------- sticky CTA ---------- */
+  .sticky-cta {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    padding: 16px 24px 22px;
+    background: linear-gradient(180deg, rgba(14,16,41,0) 0%, rgba(14,16,41,.92) 35%);
+    text-align: center;
+    z-index: 50;
+  }
+  .sticky-cta .btn { padding: 16px 56px; }
+
+  /* ---------- footer ---------- */
+  footer { text-align: center; padding: 40px 0 60px; color: var(--muted); font-size: 15px; }
+
+  @media (max-width: 600px) {
+    section { padding: 64px 0; }
+    .count-box { width: 72px; }
+    .mentor-grid { grid-template-columns: 1fr; }
+    .reg-card { padding: 34px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LOGOTYPE ============ -->
+<header class="logotype">Lead the <span class="mark">Room</span></header>
+
+<!-- ============ 1. HERO ============ -->
+<section class="hero" style="padding-bottom:45px;">
+  <div class="container">
+    <div class="badge"><span class="dot"></span> Free Live Webinar &middot; Tuesday 25 August &middot; 60 Minutes</div>
+    <h1>The 3 Secrets Every Leader Can Learn to Influence <span class="underline-swash">Any Room<svg viewBox="0 0 200 14" preserveAspectRatio="none"><path d="M4 10 Q 100 -2 196 8" stroke="#ed2e5c" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span></h1>
+    <p class="sub-orange">A webinar for leaders who lead with influence over authority</p>
+    <p class="times"><strong>5:00 PM UK</strong> &middot; <strong>12:00 PM ET</strong> &middot; <strong>9:00 AM PST</strong> &middot; Live on Zoom</p>
+    <div class="hero-form" id="register">
+      <form id="reg-form" novalidate>
+        <div class="row">
+          <input type="email" id="reg-email" name="email" autocomplete="email" placeholder="you@company.com" required>
+          <button class="btn" type="submit" id="reg-submit">Save My Seat</button>
+        </div>
+        <!-- honeypot: bots fill this, humans never see it -->
+        <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="consent">
+          <input type="checkbox" id="reg-consent" required>
+          <span>I agree to receive emails from Lead the Room with my joining link, session reminders, the replay, and occasional related content. I can unsubscribe at any time. See our <a href="https://leadtheroom.notion.site/privacy" target="_blank" rel="noopener" style="color:var(--accent-soft);">privacy policy</a>.</span>
+        </label>
+      </form>
+      <div class="form-success" id="reg-success">
+        <div class="big">🎉</div>
+        <h3>You're in!</h3>
+        <p>Check your inbox before the session for your joining link.<br>See you on Tuesday 25 August.</p>
+      </div>
+    </div>
+    <img src="webinar-header.jpg" alt="Lead the Room — The 3 secrets every leader can learn to influence any room. Live Tuesday 25th August with Jason Moore and Michele Skogerboe." width="1600" height="900" decoding="async" style="width:100%; height:auto; border-radius:20px; margin-top:56px; display:block;">
+  </div>
+</section>
+
+<!-- ============ 2. WHY THIS SESSION ============ -->
+<section class="center" style="padding-top:45px; padding-bottom:45px;">
+  <div class="container">
+    <p class="eyebrow">Why This Session</p>
+    <h2>The most important moments of your career happen in rooms.</h2>
+    <p class="lead">High-stakes meetings, offsites, town halls, kick-offs. And most of us walk into them hoping today is a good day.</p>
+    <p class="lead">In this free 60-minute live session, Jason Moore and Michele Skogerboe &mdash; creators of the Lead the Room program, with 30+ years in the room with teams at Microsoft, Netflix, HSBC and Goldman Sachs across 36+ countries &mdash; show why influencing a room has nothing to do with being the loudest voice or the most senior person in it.</p>
+  </div>
+</section>
+
+<!-- ============ 4. YOUR HOSTS ============ -->
+<section style="padding-top:45px; padding-bottom:45px;">
+  <div class="container">
+    <div class="center">
+      <p class="eyebrow">Your Hosts</p>
+      <h2>Meet Jason &amp; Michele</h2>
+      <p class="lead">Two practitioners who've spent decades in the room &mdash; not writing about facilitation, but doing it.</p>
+    </div>
+    <div class="mentor-grid">
+      <div class="mentor-card">
+        <img class="photo" src="jason-moore.jpg" alt="Jason Moore" width="1664" height="1664" loading="lazy" decoding="async">
+        <h3>Jason Moore</h3>
+        <p>Jason has spent more than two decades facilitating leadership experiences for organisations including Microsoft, HSBC, Netflix, Equinix, and Goldman Sachs &mdash; reaching more than 500,000 people. His style is energising, rigorous, and deeply human.</p>
+      </div>
+      <div class="mentor-card">
+        <img class="photo" src="micheleskogerboe.jpg" alt="Michele Skogerboe" width="1024" height="1024" loading="lazy" decoding="async">
+        <h3>Michele Skogerboe</h3>
+        <p>Michele designs and delivers experiences that challenge how leaders think, behave, and show up. Her work draws from psychology, systems thinking, and human-centred design &mdash; always grounded in evidence and translated for real rooms.</p>
+      </div>
+    </div>
+    <p style="text-align:center; color:var(--muted); font-size:13px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; margin-top:44px;">Proudly worked with 1000's of leaders at:</p>
+    <div class="logo-carousel">
+      <div class="logo-track">
+        <div class="logo-item"><img src="microsoft.png" alt="Microsoft" decoding="async"></div>
+        <div class="logo-item"><img src="netflix.png" alt="Netflix" decoding="async"></div>
+        <div class="logo-item"><img src="hsbc.png" alt="HSBC" decoding="async"></div>
+        <div class="logo-item"><img src="intuit.png" alt="Intuit" decoding="async"></div>
+        <div class="logo-item"><img src="equinix.png" alt="Equinix" decoding="async"></div>
+        <div class="logo-item"><img src="goldman.png" alt="Goldman Sachs" decoding="async"></div>
+        <div class="logo-item"><img src="nordea.png" alt="Nordea" decoding="async"></div>
+        <div class="logo-item"><img src="bupa.png" alt="Bupa" decoding="async"></div>
+        <div class="logo-item"><img src="oq.png" alt="OQ" decoding="async"></div>
+        <div class="logo-item"><img src="wells.png" alt="Wells Fargo" decoding="async"></div>
+        <div class="logo-item"><img src="microsoft.png" alt="Microsoft" decoding="async"></div>
+        <div class="logo-item"><img src="netflix.png" alt="Netflix" decoding="async"></div>
+        <div class="logo-item"><img src="hsbc.png" alt="HSBC" decoding="async"></div>
+        <div class="logo-item"><img src="intuit.png" alt="Intuit" decoding="async"></div>
+        <div class="logo-item"><img src="equinix.png" alt="Equinix" decoding="async"></div>
+        <div class="logo-item"><img src="goldman.png" alt="Goldman Sachs" decoding="async"></div>
+        <div class="logo-item"><img src="nordea.png" alt="Nordea" decoding="async"></div>
+        <div class="logo-item"><img src="bupa.png" alt="Bupa" decoding="async"></div>
+        <div class="logo-item"><img src="oq.png" alt="OQ" decoding="async"></div>
+        <div class="logo-item"><img src="wells.png" alt="Wells Fargo" decoding="async"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. FINAL CTA ============ -->
+<section class="center" style="padding-top:45px;">
+  <div class="container">
+    <p class="eyebrow">Save Your Seat</p>
+    <h2>Live and free. 60 minutes.</h2>
+    <p class="lead">Tuesday 25 August &middot; 5:00 PM UK &middot; 12:00 PM ET &middot; 9:00 AM PST</p>
+    <p style="margin-top:30px;"><a class="btn" href="#register">Save My Seat &mdash; Free</a></p>
+  </div>
+</section>
+
+<footer>&copy; AT OUR BEST LTD 2026. All rights reserved.</footer>
+
+<!-- ============ STICKY CTA ============ -->
+<div class="sticky-cta" id="sticky-cta"><a class="btn" href="#register">Save My Seat &mdash; Free</a></div>
+
+<script>
+  /* ============ REGISTRATION FORM → GOOGLE SHEET ============ */
+  // SETUP REQUIRED: paste your Google Apps Script web app URL between the quotes.
+  // See google-sheet-setup.md (in this folder) for the 5-minute setup.
+  var SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+
+  var form = document.getElementById("reg-form");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var email = document.getElementById("reg-email").value.trim();
+    var honeypot = form.querySelector(".hp").value;
+
+    if (honeypot) return; // bot — silently drop
+    if (!email || email.indexOf("@") === -1) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    if (!document.getElementById("reg-consent").checked) {
+      alert("Please tick the consent box so we're allowed to email your joining link.");
+      return;
+    }
+    if (SCRIPT_URL.indexOf("https://") !== 0) {
+      alert("Registration isn't connected yet — the Google Sheet link needs to be set up.");
+      return;
+    }
+
+    var btn = document.getElementById("reg-submit");
+    btn.disabled = true;
+    btn.textContent = "Saving your seat…";
+
+    fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors", // Apps Script doesn't send CORS headers; response is opaque
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ email: email, consent: "yes", page: location.href, ts: new Date().toISOString() })
+    }).then(function () {
+      form.style.display = "none";
+      document.getElementById("reg-success").style.display = "block";
+      document.getElementById("sticky-cta").style.display = "none";
+    }).catch(function () {
+      btn.disabled = false;
+      btn.textContent = "Save My Seat";
+      alert("Something went wrong — please try again.");
+    });
+  });
+</script>
+
+</body>
+</html>
