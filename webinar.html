@@ -393,6 +393,12 @@
   // See google-sheet-setup.md (in this folder) for the 5-minute setup.
   var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmwfbGQv_FVJ0af_KSnVqg-LID9vESWRmwkDwRE8z859t69CZ4qW6rHrO6y7J3oRIkQA/exec";
 
+  // OPTIONAL: Pabbly Connect webhook — sends each sign-up straight into Pabbly
+  // (then on to SendFox) at the same time as the Google Sheet.
+  // In Pabbly Connect: create a workflow, choose "Webhook" as the trigger,
+  // copy the webhook URL, and paste it between the quotes below.
+  var PABBLY_WEBHOOK_URL = "https://connect.pabbly.com/webhook-listener/webhook/IjU3NjEwNTZiMDYzNjA0M2Q1MjY4NTUzMCI_3D_pc/IjU3NjcwNTY4MDYzNjA0MzA1MjY4NTUzMjUxMzci_pc";
+
   var form = document.getElementById("reg-form");
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -418,12 +424,30 @@
     btn.disabled = true;
     btn.textContent = "Saving your seat…";
 
-    fetch(SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors", // Apps Script doesn't send CORS headers; response is opaque
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ email: email, consent: "yes", page: location.href, ts: new Date().toISOString() })
-    }).then(function () {
+    var payload = { email: email, consent: "yes", page: location.href, ts: new Date().toISOString() };
+
+    var requests = [
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors", // Apps Script doesn't send CORS headers; response is opaque
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(payload)
+      })
+    ];
+
+    // Fire the same data into Pabbly Connect (if configured)
+    if (PABBLY_WEBHOOK_URL.indexOf("https://") === 0) {
+      requests.push(
+        fetch(PABBLY_WEBHOOK_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(payload)
+        }).catch(function () { /* Pabbly failure shouldn't block sign-up; sheet is source of truth */ })
+      );
+    }
+
+    Promise.all(requests).then(function () {
       form.style.display = "none";
       document.getElementById("reg-success").style.display = "block";
       document.getElementById("sticky-cta").style.display = "none";
