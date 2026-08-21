@@ -491,26 +491,76 @@
   .top-banner {
     display: block;
     text-decoration: none;
+    background: var(--bg);
   }
-  .top-banner img { width: 100%; max-width: 1920px; display: block; margin: 0 auto; }
-  .top-banner .banner-placeholder {
-    background: var(--card);
-    border: 1px dashed rgba(255,255,255,.25);
+  .tb-inner {
+    max-width: 1920px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    padding: 34px 70px;
+  }
+  .tb-eyebrow {
+    display: block;
+    color: var(--orange);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+  .tb-title {
+    display: block;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: clamp(22px, 2.6vw, 34px);
+    line-height: 1.2;
+    letter-spacing: -.01em;
+    margin-top: 8px;
+  }
+  .tb-sub {
+    display: block;
     color: var(--muted);
-    text-align: center;
     font-weight: 600;
-    font-size: 15px;
-    padding: 26px 24px;
+    font-size: clamp(15px, 1.7vw, 20px);
+    margin-top: 6px;
+  }
+  .tb-btn {
+    flex-shrink: 0;
+    background: var(--grad);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 17px;
+    padding: 16px 28px;
+    border-radius: 14px;
+    white-space: nowrap;
+    box-shadow: 0 0 30px rgba(224, 47, 117, .3);
+  }
+  .tb-rule { height: 4px; background: var(--grad); }
+  @media (max-width: 700px) {
+    .tb-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 26px 24px;
+    }
   }
 </style>
 </head>
 <body>
 
 <!-- ============ TOP BANNER — special offer for webinar participants ============ -->
-<!-- To use an image: upload banner.png (or .jpg) to the SITE ROOT (alongside hero_1.jpg),
-     then replace the placeholder div below with:  <img src="/banner.png" alt="System & Self"> -->
 <a class="top-banner" href="http://systemandself.com" target="_blank" rel="noopener">
-  <img src="/banner.png" alt="Webinar attendees only: your free Group Dynamics Energy Map assessment — claim it now" width="1920" height="250" decoding="async">
+  <div class="tb-inner">
+    <div>
+      <span class="tb-eyebrow">Webinar Attendees Only</span>
+      <span class="tb-title">Your free Group Dynamics Energy Map assessment</span>
+      <span class="tb-sub">Our thank you for attending &mdash; claim it now</span>
+    </div>
+    <span class="tb-btn">Claim Free Assessment &rarr;</span>
+  </div>
+  <div class="tb-rule"></div>
 </a>
 
 <!-- ============ LOGOTYPE ============ -->
