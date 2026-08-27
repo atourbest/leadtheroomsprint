@@ -528,8 +528,24 @@
   }
   .popup input[type="email"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(237,46,92,.2); }
   .popup .btn { width: 100%; margin-top: 14px; padding: 16px 20px; font-size: 17px; }
-  .popup .p-note { font-size: 13px; margin-top: 14px; }
-  .popup .p-success { display: none; }
+  .popup .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 16px;
+    text-align: left;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  .popup .consent input[type="checkbox"] {
+    width: 18px; height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
   .hp { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
 
   /* ---------- sticky CTA ---------- */
@@ -929,14 +945,12 @@
     <form id="popup-form" novalidate>
       <input type="email" id="popup-email" name="email" autocomplete="email" placeholder="you@company.com" required>
       <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button class="btn" type="submit" id="popup-submit">Send Me the Webinar Replay</button>
-      <p class="p-note">We'll email you the link, plus occasional Lead the Room content. Unsubscribe anytime.</p>
+      <label class="consent">
+        <input type="checkbox" id="popup-consent" required>
+        <span>I agree to receive emails from Lead the Room with related content. I can unsubscribe at any time. See our <a href="https://leadtheroom.notion.site/privacy" target="_blank" rel="noopener" style="color:var(--accent-soft);">privacy policy</a>.</span>
+      </label>
+      <button class="btn" type="submit" id="popup-submit">Watch the Webinar Now &rarr;</button>
     </form>
-    <div class="p-success" id="popup-success">
-      <p style="font-size:38px; margin-top:6px;">🎉</p>
-      <p><strong style="color:#ffffff;">Done &mdash; the link is on its way to your inbox.</strong><br>Or skip the wait:</p>
-      <a class="btn" href="replay.html" style="margin-top:18px;">Watch the Webinar Now &rarr;</a>
-    </div>
   </div>
 </div>
 
@@ -1021,9 +1035,13 @@
       alert("Please enter a valid email address.");
       return;
     }
+    if (!document.getElementById("popup-consent").checked) {
+      alert("Please tick the consent box to continue.");
+      return;
+    }
     var btn = document.getElementById("popup-submit");
     btn.disabled = true;
-    btn.textContent = "Sending…";
+    btn.textContent = "Opening the webinar…";
 
     var payload = { email: email, consent: "yes", page: location.href + "#popup", ts: new Date().toISOString() };
     var requests = [
@@ -1032,13 +1050,10 @@
     if (POPUP_PABBLY_URL.indexOf("https://") === 0) {
       requests.push(fetch(POPUP_PABBLY_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(payload) }).catch(function () {}));
     }
-    Promise.all(requests).then(function () {
-      form.style.display = "none";
-      document.getElementById("popup-success").style.display = "block";
-    }).catch(function () {
-      btn.disabled = false;
-      btn.textContent = "Send Me the Webinar Replay";
-      alert("Something went wrong — please try again.");
+    // Fire the captures, then go straight to the webinar page either way —
+    // the visitor shouldn't be blocked by a background request.
+    Promise.all(requests).catch(function () {}).then(function () {
+      window.location.href = "replay.html";
     });
   });
 </script>
