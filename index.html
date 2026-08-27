@@ -482,6 +482,56 @@
     margin-top: 48px;
   }
 
+  /* ---------- lead magnet popup ---------- */
+  .popup-overlay {
+    position: fixed; inset: 0;
+    background: rgba(10,12,30,.75);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 24px;
+    z-index: 100;
+  }
+  .popup-overlay.show { display: flex; }
+  .popup {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    max-width: 520px; width: 100%;
+    padding: 44px 36px 36px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  }
+  .popup-close {
+    position: absolute; top: 10px; right: 18px;
+    background: none; border: none;
+    color: var(--muted); font-size: 28px; line-height: 1;
+    cursor: pointer;
+  }
+  .popup .p-eyebrow {
+    color: var(--orange);
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .22em; text-transform: uppercase;
+  }
+  .popup h3 { font-size: 26px; font-weight: 800; margin-top: 12px; line-height: 1.25; }
+  .popup p { color: var(--muted); font-size: 16px; margin-top: 14px; }
+  .popup input[type="email"] {
+    width: 100%;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 15px 16px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 16px;
+    margin-top: 22px;
+  }
+  .popup input[type="email"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(237,46,92,.2); }
+  .popup .btn { width: 100%; margin-top: 14px; padding: 16px 20px; font-size: 17px; }
+  .popup .p-note { font-size: 13px; margin-top: 14px; }
+  .popup .p-success { display: none; }
+  .hp { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
+
   /* ---------- sticky CTA ---------- */
   .sticky-cta {
     position: fixed; left: 0; right: 0; bottom: 0;
@@ -505,7 +555,7 @@
 <body>
 
 <!-- ============ PROMO BAR ============ -->
-<a class="promo-bar" href="#bonus"><strong>September Cohort Bonus:</strong> choose a private 1:1 session with Jason or Michele &mdash; ends 31 August &rarr;</a>
+<a class="promo-bar bonus-offer" href="#bonus"><strong>September Cohort Bonus:</strong> choose a private 1:1 session with Jason or Michele &mdash; ends 7 September &rarr;</a>
 
 <!-- ============ LOGOTYPE ============ -->
 <header class="logotype">Lead the Room <span class="mark">Sprint</span></header>
@@ -519,7 +569,7 @@
     <a class="btn" href="https://pfnl.co/8m8y1ah">Join the Sprint</a>
     <div class="stars">★★★★★</div>
     <p class="social-proof">Join a growing cohort of ambitious leaders!</p>
-    <p class="countdown-label">Cart Closes In</p>
+    <p class="countdown-label">⏰ Act Fast: The 1:1 Mentor Bonus Expires In...</p>
     <div class="countdown">
       <div class="count-box"><span class="num" id="cd-days">00</span><span class="unit">Days</span></div>
       <div class="count-box"><span class="num" id="cd-hrs">00</span><span class="unit">Hrs</span></div>
@@ -759,18 +809,18 @@
       <li class="bonus"><span class="icon">★</span><strong>LIFETIME ACCESS</strong> to the Lead the Room curriculum, session videos, and library of bonuses.</li>
       <li class="bonus"><span class="icon">★</span><strong>[BONUS] 3 × Deep-Dive Sessions ($150 Value).</strong> Three live 30-minute bonus sessions going deeper on the questions, energy tactics, and story tactics that come up most.</li>
       <li class="bonus"><span class="icon">★</span><strong>[BONUS] Principles of Proper Presentation Prep ($150 Value).</strong> A bonus course on preparing any presentation properly &mdash; so the work before the room is as strong as the work in it.</li>
-      <li class="bonus"><span class="icon">★</span><strong>[BONUS] Your Choice of 1:1 Session.</strong> Sign up by 31 August and choose either a private Energy Coaching session with Jason or a Design Consult with Michele &mdash; we don't normally offer these, and it's your call which, made after you join.</li>
+      <li class="bonus bonus-offer"><span class="icon">★</span><strong>[BONUS] Your Choice of 1:1 Session.</strong> Sign up by 7 September and choose either a private Energy Coaching session with Jason or a Design Consult with Michele &mdash; we don't normally offer these, and it's your call which, made after you join.</li>
     </ul>
   </div>
 </section>
 
 <!-- ============ 7b. CHOOSE YOUR BONUS ============ -->
-<section id="bonus" style="padding-top:45px; padding-bottom:45px;">
+<section id="bonus" class="bonus-offer" style="padding-top:45px; padding-bottom:45px;">
   <div class="container">
     <div class="center">
       <p class="eyebrow">September Cohort Bonus</p>
       <h2>Choose your 1:1 bonus session.</h2>
-      <p class="lead">Sign up for the September cohort by 31 August and pick the private session that moves your next room most. You choose after you join. It's not something we normally offer &mdash; which is exactly why it's worth grabbing.</p>
+      <p class="lead">Sign up for the September cohort by 7 September and pick the private session that moves your next room most. You choose after you join. It's not something we normally offer &mdash; which is exactly why it's worth grabbing.</p>
     </div>
     <div class="mentor-grid">
       <div class="mentor-card">
@@ -808,7 +858,7 @@
       <div class="stack-row"><span>Lifetime access to the curriculum</span><span class="val">Priceless</span></div>
       <div class="stack-row"><span>BONUS: Facilitators Photo Deck</span><span class="val">$45</span></div>
       <div class="stack-row"><span>BONUS: 3 &times; Deep-Dive Sessions</span><span class="val">$150</span></div>
-      <div class="stack-row"><span>BONUS: Your choice &mdash; 1:1 Energy Coaching with Jason or Design Consult with Michele (join by 31 Aug)</span><span class="val">Priceless</span></div>
+      <div class="stack-row bonus-offer"><span>BONUS: Your choice &mdash; 1:1 Energy Coaching with Jason or Design Consult with Michele (join by 7 Sept)</span><span class="val">Priceless</span></div>
       <div class="stack-row"><span>BONUS: Principles of Proper Presentation Prep course</span><span class="val">$150</span></div>
       <div class="stack-total"><span>Total Value</span><span class="val">$2,540</span></div>
     </div>
@@ -819,6 +869,7 @@
 
     <div class="stack-cta"><a class="btn" href="https://pfnl.co/8m8y1ah">Join the Sprint</a></div>
     <p class="cohort-note">Each cohort is intentionally limited, so every participant gets real conversation with peers who take this work as seriously as you do.</p>
+    <p style="text-align:center; margin-top:20px; font-size:16px;">💼 Getting your company to pay? <a href="https://leadtheroom.notion.site/professional-development-request" target="_blank" rel="noopener" style="color:var(--accent-soft); font-weight:600;">Click here to copy our pre-written HR/manager email template</a>.</p>
   </div>
 </section>
 
@@ -838,6 +889,7 @@
       <details class="faq-item"><summary>Is this just facilitation training?<span class="plus">+</span></summary><div class="answer">No &mdash; it's a leadership method. You'll pick up facilitation techniques along the way, but the outcome is bigger: leading any room toward the result you need.</div></details>
       <details class="faq-item"><summary>How is this different from presentation-skills courses?<span class="plus">+</span></summary><div class="answer">Presentation training teaches you to deliver polished content at a room. Lead the Room teaches you to work with the room &mdash; reading it, moving it, and reaching outcomes together.</div></details>
       <details class="faq-item"><summary>How long do I have access?<span class="plus">+</span></summary><div class="answer">You keep lifetime access to the session videos and resources, plus ongoing access to the community &mdash; and the Field Guide is yours on your shelf.</div></details>
+      <details class="faq-item"><summary>Can my company pay for this?<span class="plus">+</span></summary><div class="answer">Yes &mdash; many participants expense the Sprint as professional development. We've even written the email for you: <a href="https://leadtheroom.notion.site/professional-development-request" target="_blank" rel="noopener" style="color:var(--accent-soft); font-weight:600;">copy our pre-written HR/manager request template</a> and send it to your manager.</div></details>
       <details class="faq-item"><summary>Is there a guarantee?<span class="plus">+</span></summary><div class="answer">Yes. Join the first lab, and if it's not right for you, let us know within 48 hours for a full refund &mdash; no questions asked.</div></details>
     </div>
   </div>
@@ -867,33 +919,47 @@
 <!-- ============ STICKY CTA ============ -->
 <div class="sticky-cta"><a class="btn" href="https://pfnl.co/8m8y1ah">Join the Sprint</a></div>
 
-<script>
-  // Evergreen countdown: each visitor gets their own 24-hour window, stored in
-  // their browser (localStorage). If it has expired by their next visit, it
-  // quietly restarts. Refreshing the page does NOT reset the clock.
-  var DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
-  var STORAGE_KEY = "ltr-sprint-deadline";
-  var deadline = 0;
+<!-- ============ LEAD MAGNET POPUP ============ -->
+<div class="popup-overlay" id="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+  <div class="popup">
+    <button class="popup-close" id="popup-close" aria-label="Close">&times;</button>
+    <p class="p-eyebrow">Before You Decide</p>
+    <h3 id="popup-title">Not ready to join yet?<br>Watch the free webinar first.</h3>
+    <p><strong style="color:#ffffff;">The 3 Secrets Every Leader Can Learn to Lead Any Room</strong> &mdash; the 60-minute webinar replay with Jason &amp; Michele, free.</p>
+    <form id="popup-form" novalidate>
+      <input type="email" id="popup-email" name="email" autocomplete="email" placeholder="you@company.com" required>
+      <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn" type="submit" id="popup-submit">Send Me the Webinar Replay</button>
+      <p class="p-note">We'll email you the link, plus occasional Lead the Room content. Unsubscribe anytime.</p>
+    </form>
+    <div class="p-success" id="popup-success">
+      <p style="font-size:38px; margin-top:6px;">🎉</p>
+      <p><strong style="color:#ffffff;">Done &mdash; the link is on its way to your inbox.</strong><br>Or skip the wait:</p>
+      <a class="btn" href="replay.html" style="margin-top:18px;">Watch the Webinar Now &rarr;</a>
+    </div>
+  </div>
+</div>
 
-  try {
-    deadline = parseInt(localStorage.getItem(STORAGE_KEY), 10) || 0;
-    var remaining = deadline - Date.now();
-    // Start fresh if there's no stored deadline, it already expired,
-    // or the stored value is invalid (further out than the full window).
-    if (remaining <= 0 || remaining > DURATION_MS) {
-      deadline = Date.now() + DURATION_MS;
-      localStorage.setItem(STORAGE_KEY, String(deadline));
-    }
-  } catch (e) {
-    // localStorage unavailable (e.g. strict private browsing):
-    // fall back to a timer that starts now, for this page view only.
-    deadline = Date.now() + DURATION_MS;
-  }
+<script>
+  // Two-phase countdown:
+  // Phase 1 — until midnight 7 September (visitor's local time): the 1:1 Mentor Bonus deadline.
+  // Phase 2 — after that: counts down to Lab 1 with a new label, and everything
+  //           advertising the expired bonus (class="bonus-offer") hides automatically.
+  var bonusEnds = new Date(2026, 8, 8, 0, 0, 0); // midnight at the end of Sun 7 Sept (months 0-indexed)
+  var cohortBegins = new Date("2026-09-15T17:00:00+01:00"); // Lab 1 — 5:00 PM BST
 
   function pad(n) { return String(n).padStart(2, "0"); }
 
   function tick() {
-    var diff = deadline - Date.now();
+    var now = Date.now();
+    var target = bonusEnds;
+    if (now >= bonusEnds.getTime()) {
+      target = cohortBegins;
+      var lbl = document.querySelector(".countdown-label");
+      if (lbl) lbl.textContent = "🔥 The September Cohort Begins In...";
+      document.querySelectorAll(".bonus-offer").forEach(function (el) { el.style.display = "none"; });
+    }
+    var diff = target - now;
     if (diff < 0) diff = 0;
     var days = Math.floor(diff / 86400000);
     var hrs  = Math.floor(diff % 86400000 / 3600000);
@@ -907,6 +973,74 @@
 
   tick();
   setInterval(tick, 1000);
+
+  /* ============ LEAD MAGNET POPUP ============ */
+  // Shows once per visitor: after 30 seconds on page, or on exit intent
+  // (cursor leaving the top of the window), whichever happens first.
+  // Captured emails go to the same Google Sheet + Pabbly (→ SendFox) pipeline
+  // as the webinar sign-up form; the "page" field marks them as popup leads.
+  var POPUP_DELAY_MS = 30000;
+  var POPUP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzINGh1lIc-4lMLIDsKG-tGNkgl6j_F49TIvU0MacqO1pkpdhqkAorO15PaKHGWlMqY/exec";
+  // IMPORTANT: this must be a SEPARATE Pabbly workflow from the webinar one,
+  // or popup leads will receive the (now finished) webinar email sequence.
+  // Create a new workflow in Pabbly (Webhook trigger → SendFox, its own list),
+  // then paste its webhook URL here.
+  var POPUP_PABBLY_URL = "https://connect.pabbly.com/webhook-listener/webhook/IjU3NjEwNTZiMDYzNjA0M2Q1MjY4NTUzMCI_3D_pc/IjU3NjcwNTY4MDYzNDA0MzI1MjZhNTUzNDUxMzAi_pc";
+
+  var overlay = document.getElementById("popup-overlay");
+
+  function popupSeen() {
+    try { return localStorage.getItem("ltr-popup-seen") === "1"; } catch (e) { return false; }
+  }
+  function markPopupSeen() {
+    try { localStorage.setItem("ltr-popup-seen", "1"); } catch (e) {}
+  }
+  function showPopup() {
+    if (popupSeen() || overlay.classList.contains("show")) return;
+    overlay.classList.add("show");
+    markPopupSeen();
+  }
+  function hidePopup() { overlay.classList.remove("show"); }
+
+  if (!popupSeen()) {
+    setTimeout(showPopup, POPUP_DELAY_MS);
+    document.addEventListener("mouseout", function (e) {
+      if (!e.relatedTarget && e.clientY <= 0) showPopup(); // exit intent (desktop)
+    });
+  }
+
+  document.getElementById("popup-close").addEventListener("click", hidePopup);
+  overlay.addEventListener("click", function (e) { if (e.target === overlay) hidePopup(); });
+
+  document.getElementById("popup-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var form = e.target;
+    var email = document.getElementById("popup-email").value.trim();
+    if (form.querySelector(".hp").value) return; // bot
+    if (!email || email.indexOf("@") === -1) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    var btn = document.getElementById("popup-submit");
+    btn.disabled = true;
+    btn.textContent = "Sending…";
+
+    var payload = { email: email, consent: "yes", page: location.href + "#popup", ts: new Date().toISOString() };
+    var requests = [
+      fetch(POPUP_SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(payload) })
+    ];
+    if (POPUP_PABBLY_URL.indexOf("https://") === 0) {
+      requests.push(fetch(POPUP_PABBLY_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(payload) }).catch(function () {}));
+    }
+    Promise.all(requests).then(function () {
+      form.style.display = "none";
+      document.getElementById("popup-success").style.display = "block";
+    }).catch(function () {
+      btn.disabled = false;
+      btn.textContent = "Send Me the Webinar Replay";
+      alert("Something went wrong — please try again.");
+    });
+  });
 </script>
 
 </body>
