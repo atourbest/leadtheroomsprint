@@ -575,8 +575,7 @@
     <a class="btn" href="https://pfnl.co/8m8y1ah">Join the Sprint</a>
     <div class="stars">★★★★★</div>
     <p class="social-proof">Join a growing cohort of ambitious leaders!</p>
-    <p style="color:var(--muted); font-size:16px; margin-top:14px;">Sign up by <strong style="color:var(--orange);">31 August</strong> and choose a 1:1 bonus session &mdash; Energy Coaching with Jason or a Design Consult with Michele.</p>
-    <p class="countdown-label">Cart Closes In</p>
+    <p class="countdown-label">🔥 The September Cohort Begins In...</p>
     <div class="countdown">
       <div class="count-box"><span class="num" id="cd-days">00</span><span class="unit">Days</span></div>
       <div class="count-box"><span class="num" id="cd-hrs">00</span><span class="unit">Hrs</span></div>
@@ -820,32 +819,6 @@
   </div>
 </section>
 
-<!-- ============ 7b. CHOOSE YOUR BONUS ============ -->
-<section id="bonus" style="padding-top:45px; padding-bottom:45px;">
-  <div class="container">
-    <div class="center">
-      <p class="eyebrow">September Cohort Bonus</p>
-      <h2>Choose your 1:1 bonus session.</h2>
-      <p class="lead">Sign up for the September cohort by 31 August and pick the private session that moves your next room most. You choose after you join. It's not something we normally offer &mdash; which is exactly why it's worth grabbing.</p>
-    </div>
-    <div class="mentor-grid">
-      <div class="mentor-card">
-        <img class="photo" src="/jason-moore.jpg" alt="Jason Moore" width="1664" height="1664" loading="lazy" decoding="async">
-        <h3>Energy Coaching with Jason</h3>
-        <p class="role">Option 1 &middot; 1:1 Session</p>
-        <p>Bring your Energy Map assessment. Jason will work through it with you, help you move past your defaults, and build a wider range.</p>
-      </div>
-      <div class="mentor-card">
-        <img class="photo" src="/micheleskogerboe.jpg" alt="Michele Skogerboe" width="1024" height="1024" loading="lazy" decoding="async">
-        <h3>Design Consult with Michele</h3>
-        <p class="role">Option 2 &middot; 1:1 Session</p>
-        <p>Bring a session you need to design. Michele will shape it with you &mdash; so the shift happens in the room, not in the days after it.</p>
-      </div>
-    </div>
-    <p class="cohort-note">One private session per participant &mdash; pick whichever will make the bigger difference to your very next room.</p>
-  </div>
-</section>
-
 <!-- ============ 8. VALUE STACK & PRICE ============ -->
 <section id="pricing" style="padding-top:45px; padding-bottom:45px;">
   <div class="container">
@@ -864,7 +837,6 @@
       <div class="stack-row"><span>Lifetime access to the curriculum</span><span class="val">Priceless</span></div>
       <div class="stack-row"><span>BONUS: Facilitators Photo Deck</span><span class="val">$45</span></div>
       <div class="stack-row"><span>BONUS: 3 &times; Deep-Dive Sessions</span><span class="val">$150</span></div>
-      <div class="stack-row"><span>BONUS: Your choice &mdash; 1:1 Energy Coaching with Jason or Design Consult with Michele (join by 31 Aug)</span><span class="val">Priceless</span></div>
       <div class="stack-row"><span>BONUS: Principles of Proper Presentation Prep course</span><span class="val">$150</span></div>
       <div class="stack-total"><span>Total Value</span><span class="val">$2,540</span></div>
     </div>
@@ -894,6 +866,7 @@
       <details class="faq-item"><summary>Is this just facilitation training?<span class="plus">+</span></summary><div class="answer">No &mdash; it's a leadership method. You'll pick up facilitation techniques along the way, but the outcome is bigger: leading any room toward the result you need.</div></details>
       <details class="faq-item"><summary>How is this different from presentation-skills courses?<span class="plus">+</span></summary><div class="answer">Presentation training teaches you to deliver polished content at a room. Lead the Room teaches you to work with the room &mdash; reading it, moving it, and reaching outcomes together.</div></details>
       <details class="faq-item"><summary>How long do I have access?<span class="plus">+</span></summary><div class="answer">You keep lifetime access to the session videos and resources, plus ongoing access to the community &mdash; and the Field Guide is yours on your shelf.</div></details>
+      <details class="faq-item"><summary>Can my company pay for this?<span class="plus">+</span></summary><div class="answer">Yes &mdash; many participants expense the Sprint as professional development. We've even written the email for you: <a href="https://leadtheroom.notion.site/professional-development-request" target="_blank" rel="noopener" style="color:var(--accent-soft); font-weight:600;">copy our pre-written HR/manager request template</a> and send it to your manager.</div></details>
       <details class="faq-item"><summary>Is there a guarantee?<span class="plus">+</span></summary><div class="answer">Yes. Join the first lab, and if it's not right for you, let us know within 48 hours for a full refund &mdash; no questions asked.</div></details>
     </div>
   </div>
@@ -924,32 +897,13 @@
 <div class="sticky-cta"><a class="btn" href="https://pfnl.co/8m8y1ah">Join the Sprint</a></div>
 
 <script>
-  // Evergreen countdown: each visitor gets their own 24-hour window, stored in
-  // their browser (localStorage). If it has expired by their next visit, it
-  // quietly restarts. Refreshing the page does NOT reset the clock.
-  var DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
-  var STORAGE_KEY = "ltr-sprint-deadline";
-  var deadline = 0;
-
-  try {
-    deadline = parseInt(localStorage.getItem(STORAGE_KEY), 10) || 0;
-    var remaining = deadline - Date.now();
-    // Start fresh if there's no stored deadline, it already expired,
-    // or the stored value is invalid (further out than the full window).
-    if (remaining <= 0 || remaining > DURATION_MS) {
-      deadline = Date.now() + DURATION_MS;
-      localStorage.setItem(STORAGE_KEY, String(deadline));
-    }
-  } catch (e) {
-    // localStorage unavailable (e.g. strict private browsing):
-    // fall back to a timer that starts now, for this page view only.
-    deadline = Date.now() + DURATION_MS;
-  }
+  // Countdown to Lab 1 of the September cohort.
+  var cohortBegins = new Date("2026-09-15T17:00:00+01:00"); // Lab 1 — 5:00 PM BST
 
   function pad(n) { return String(n).padStart(2, "0"); }
 
   function tick() {
-    var diff = deadline - Date.now();
+    var diff = cohortBegins - Date.now();
     if (diff < 0) diff = 0;
     var days = Math.floor(diff / 86400000);
     var hrs  = Math.floor(diff % 86400000 / 3600000);
