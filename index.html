@@ -571,7 +571,6 @@
 <body>
 
 <!-- ============ PROMO BAR ============ -->
-<a class="promo-bar bonus-offer" href="#bonus"><strong>September Cohort Bonus:</strong> choose a private 1:1 session with Jason or Michele &mdash; ends 7 September &rarr;</a>
 
 <!-- ============ LOGOTYPE ============ -->
 <header class="logotype">Lead the Room <span class="mark">Sprint</span></header>
@@ -585,7 +584,7 @@
     <a class="btn" href="https://pfnl.co/8m8y1ah">Join the Sprint</a>
     <div class="stars">★★★★★</div>
     <p class="social-proof">Join a growing cohort of ambitious leaders!</p>
-    <p class="countdown-label">⏰ Act Fast: The 1:1 Mentor Bonus Expires In...</p>
+    <p class="countdown-label">🔥 The September Cohort Begins In...</p>
     <div class="countdown">
       <div class="count-box"><span class="num" id="cd-days">00</span><span class="unit">Days</span></div>
       <div class="count-box"><span class="num" id="cd-hrs">00</span><span class="unit">Hrs</span></div>
@@ -825,34 +824,7 @@
       <li class="bonus"><span class="icon">★</span><strong>LIFETIME ACCESS</strong> to the Lead the Room curriculum, session videos, and library of bonuses.</li>
       <li class="bonus"><span class="icon">★</span><strong>[BONUS] 3 × Deep-Dive Sessions ($150 Value).</strong> Three live 30-minute bonus sessions going deeper on the questions, energy tactics, and story tactics that come up most.</li>
       <li class="bonus"><span class="icon">★</span><strong>[BONUS] Principles of Proper Presentation Prep ($150 Value).</strong> A bonus course on preparing any presentation properly &mdash; so the work before the room is as strong as the work in it.</li>
-      <li class="bonus bonus-offer"><span class="icon">★</span><strong>[BONUS] Your Choice of 1:1 Session.</strong> Sign up by 7 September and choose either a private Energy Coaching session with Jason or a Design Consult with Michele &mdash; we don't normally offer these, and it's your call which, made after you join.</li>
     </ul>
-  </div>
-</section>
-
-<!-- ============ 7b. CHOOSE YOUR BONUS ============ -->
-<section id="bonus" class="bonus-offer" style="padding-top:45px; padding-bottom:45px;">
-  <div class="container">
-    <div class="center">
-      <p class="eyebrow">September Cohort Bonus</p>
-      <h2>Choose your 1:1 bonus session.</h2>
-      <p class="lead">Sign up for the September cohort by 7 September and pick the private session that moves your next room most. You choose after you join. It's not something we normally offer &mdash; which is exactly why it's worth grabbing.</p>
-    </div>
-    <div class="mentor-grid">
-      <div class="mentor-card">
-        <img class="photo" src="jason-moore.jpg" alt="Jason Moore" width="1664" height="1664" loading="lazy" decoding="async">
-        <h3>Energy Coaching with Jason</h3>
-        <p class="role">Option 1 &middot; 1:1 Session</p>
-        <p>Bring your Energy Map assessment. Jason will work through it with you, help you move past your defaults, and build a wider range.</p>
-      </div>
-      <div class="mentor-card">
-        <img class="photo" src="micheleskogerboe.jpg" alt="Michele Skogerboe" width="1024" height="1024" loading="lazy" decoding="async">
-        <h3>Design Consult with Michele</h3>
-        <p class="role">Option 2 &middot; 1:1 Session</p>
-        <p>Bring a session you need to design. Michele will shape it with you &mdash; so the shift happens in the room, not in the days after it.</p>
-      </div>
-    </div>
-    <p class="cohort-note">One private session per participant &mdash; pick whichever will make the bigger difference to your very next room.</p>
   </div>
 </section>
 
@@ -874,7 +846,6 @@
       <div class="stack-row"><span>Lifetime access to the curriculum</span><span class="val">Priceless</span></div>
       <div class="stack-row"><span>BONUS: Facilitators Photo Deck</span><span class="val">$45</span></div>
       <div class="stack-row"><span>BONUS: 3 &times; Deep-Dive Sessions</span><span class="val">$150</span></div>
-      <div class="stack-row bonus-offer"><span>BONUS: Your choice &mdash; 1:1 Energy Coaching with Jason or Design Consult with Michele (join by 7 Sept)</span><span class="val">Priceless</span></div>
       <div class="stack-row"><span>BONUS: Principles of Proper Presentation Prep course</span><span class="val">$150</span></div>
       <div class="stack-total"><span>Total Value</span><span class="val">$2,540</span></div>
     </div>
@@ -955,25 +926,13 @@
 </div>
 
 <script>
-  // Two-phase countdown:
-  // Phase 1 — until midnight 7 September (visitor's local time): the 1:1 Mentor Bonus deadline.
-  // Phase 2 — after that: counts down to Lab 1 with a new label, and everything
-  //           advertising the expired bonus (class="bonus-offer") hides automatically.
-  var bonusEnds = new Date(2026, 8, 8, 0, 0, 0); // midnight at the end of Sun 7 Sept (months 0-indexed)
+  // Countdown to Lab 1 of the September cohort.
   var cohortBegins = new Date("2026-09-15T17:00:00+01:00"); // Lab 1 — 5:00 PM BST
 
   function pad(n) { return String(n).padStart(2, "0"); }
 
   function tick() {
-    var now = Date.now();
-    var target = bonusEnds;
-    if (now >= bonusEnds.getTime()) {
-      target = cohortBegins;
-      var lbl = document.querySelector(".countdown-label");
-      if (lbl) lbl.textContent = "🔥 The September Cohort Begins In...";
-      document.querySelectorAll(".bonus-offer").forEach(function (el) { el.style.display = "none"; });
-    }
-    var diff = target - now;
+    var diff = cohortBegins - Date.now();
     if (diff < 0) diff = 0;
     var days = Math.floor(diff / 86400000);
     var hrs  = Math.floor(diff % 86400000 / 3600000);
@@ -1050,10 +1009,10 @@
     if (POPUP_PABBLY_URL.indexOf("https://") === 0) {
       requests.push(fetch(POPUP_PABBLY_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(payload) }).catch(function () {}));
     }
-    // Fire the captures, then go straight to the webinar page either way —
+    // Fire the captures, then go straight to the insider offer page either way —
     // the visitor shouldn't be blocked by a background request.
     Promise.all(requests).catch(function () {}).then(function () {
-      window.location.href = "replay.html";
+      window.location.href = "insider.html";
     });
   });
 </script>
