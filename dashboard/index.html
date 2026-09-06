@@ -237,6 +237,17 @@
       </div>
       <div class="body-table hidden"></div>
     </div>
+
+    <div class="card" id="card-ga">
+      <header><h2>Website traffic</h2><span class="tag">Lead</span><button class="tbl-btn" type="button" aria-pressed="false">Table</button></header>
+      <p class="desc" id="gaDesc">Daily sessions and visitors across the Lead the Room pages (Google Analytics).</p>
+      <div class="body-chart">
+        <div class="legend" id="gaLegend"></div>
+        <div class="chart-mount" id="gaChart"></div>
+        <div id="gaPages"></div>
+      </div>
+      <div class="body-table hidden"></div>
+    </div>
   </section>
 
   <p class="foot-note" id="footNote"></p>
@@ -264,6 +275,7 @@
 const CONFIG = {
   weeklyCsvUrl:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTfqwDWv93D2Z3l-u0puFIStZbM87QQL11QU1bs5WpYXDH7FcnXROxKfgwurUqPOyqmv-ZblhP_q6it/pub?gid=0&single=true&output=csv",
   webinarsCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTfqwDWv93D2Z3l-u0puFIStZbM87QQL11QU1bs5WpYXDH7FcnXROxKfgwurUqPOyqmv-ZblhP_q6it/pub?gid=1653992640&single=true&output=csv",
+  gaCsvUrl:       "",   // optional: published-CSV link of the "GA" tab — see SETUP.md → Google Analytics
   targets: { total: 20, paid: 10, free: 10, incomeGBP: 2000, followers: 150 },
   cohortStart: "2026-09-15",   // first session (Tue 15 Sep)
   currency: "£"
@@ -869,11 +881,12 @@ document.getElementById("themeBtn").addEventListener("click", () => {
     (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   root.setAttribute("data-theme", current === "dark" ? "light" : "dark");
   render();
+  renderGA();
 });
 
 /* resize re-render */
 let rz;
-window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(render, 150); });
+window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { render(); renderGA(); }, 150); });
 
 /* ---------------- load ---------------- */
 /* tolerant column lookup: exact key first, then any header containing the prefix */
@@ -951,7 +964,104 @@ async function load() {
   };
   render();
 }
+
+/* ---------------- Google Analytics tab (optional) ---------------- */
+let GA_DATA = { rows: [], error: "" };
+
+async function loadGA() {
+  if (CONFIG.gaCsvUrl) {
+    try {
+      const rows = await fetchCSV(sheetCsvUrl(CONFIG.gaCsvUrl));
+      GA_DATA.rows = rows.map(r => ({
+        date: parseDate(fieldVal(r, "date")),
+        page: String(fieldVal(r, "page", "path") ?? "").trim(),
+        sessions: num(fieldVal(r, "sessions")),
+        users: num(fieldVal(r, "users", "visitors"))
+      })).filter(r => r.date);
+      GA_DATA.error = GA_DATA.rows.length ? "" : "the GA link returned no readable rows";
+    } catch (e) {
+      GA_DATA.error = e.message || String(e);
+    }
+  }
+  renderGA();
+}
+
+function renderGA() {
+  const desc = document.getElementById("gaDesc");
+  const mount = document.getElementById("gaChart");
+  const pages = document.getElementById("gaPages");
+  if (!mount) return;
+  const rows = GA_DATA.rows;
+
+  if (!rows.length) {
+    mount.replaceChildren();
+    pages.replaceChildren();
+    desc.textContent = CONFIG.gaCsvUrl
+      ? "Google Analytics data could not be loaded" + (GA_DATA.error ? " — " + GA_DATA.error : "") + "."
+      : "Not connected yet — pull GA into a \"GA\" tab of the tracker sheet and paste its published-CSV link into CONFIG.gaCsvUrl (see SETUP.md).";
+    setTableBody("card-ga", ["Date", "Sessions", "Users"], []);
+    return;
+  }
+
+  const byDay = new Map();
+  rows.forEach(r => {
+    const k = r.date.getTime();
+    const cur = byDay.get(k) || { date: r.date, sessions: 0, users: 0 };
+    cur.sessions += r.sessions || 0;
+    cur.users += r.users || 0;
+    byDay.set(k, cur);
+  });
+  const daily = [...byDay.values()].sort((a, b) => a.date - b.date);
+  const dates = daily.map(d => d.date);
+  desc.textContent = "Daily sessions and visitors across the Lead the Room pages (Google Analytics, " + daily.length + " days).";
+
+  legendInto("gaLegend", [
+    { name: "Sessions", color: css("--series-1") },
+    { name: "Visitors", color: css("--series-2") }
+  ], "rect");
+
+  renderLineChart(mount, {
+    dates,
+    series: [
+      { name: "Sessions", color: css("--series-1"), values: daily.map(d => d.sessions) },
+      { name: "Visitors", color: css("--series-2"), values: daily.map(d => d.users) }
+    ],
+    height: 230,
+    ariaLabel: "Daily website sessions and visitors from Google Analytics"
+  });
+
+  const byPage = new Map();
+  rows.forEach(r => {
+    if (!r.page) return;
+    byPage.set(r.page, (byPage.get(r.page) || 0) + (r.sessions || 0));
+  });
+  const top = [...byPage.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
+  pages.replaceChildren();
+  if (top.length) {
+    const title = document.createElement("div");
+    title.className = "mini-title";
+    title.textContent = "Top pages by sessions";
+    pages.appendChild(title);
+    top.forEach(([p, s]) => {
+      const row = document.createElement("div");
+      row.style.cssText = "display:flex; justify-content:space-between; gap:12px; font-size:13px; padding:3px 0; color:var(--text-secondary);";
+      const a = document.createElement("span");
+      a.textContent = p;
+      a.style.cssText = "overflow:hidden; text-overflow:ellipsis; white-space:nowrap;";
+      const b = document.createElement("span");
+      b.textContent = fmtInt(s);
+      b.style.fontVariantNumeric = "tabular-nums";
+      row.append(a, b);
+      pages.appendChild(row);
+    });
+  }
+
+  setTableBody("card-ga", ["Date", "Sessions", "Users"],
+    daily.map(d => [fmtDate(d.date), fmtInt(d.sessions), fmtInt(d.users)]));
+}
+
 load();
+loadGA();
 </script>
 </body>
 </html>
