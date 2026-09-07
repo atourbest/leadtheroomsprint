@@ -78,7 +78,9 @@
   }
   .slide.active { opacity: 1; pointer-events: auto; }
   .slide blockquote { color: var(--muted); font-size: 17px; }
-  .slide .p-name { font-weight: 700; font-size: 16px; margin-top: 18px; }
+  .slide .p-name { font-weight: 700; font-size: 16px; }
+  .s-person { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+  .s-person img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
   .dots { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
   .dot {
     width: 10px; height: 10px; border-radius: 50%;
@@ -184,31 +186,31 @@
   <div class="slides" id="slides">
     <div class="slide active">
       <blockquote>"If you need to influence outcomes in rooms where you're not the most senior person, this is very much built for you. I found myself using the tools the very next week in real meetings."</blockquote>
-      <p class="p-name">Rosanne McBrayer</p>
+      <div class="s-person"><img src="rosanne.png" alt="Rosanne McBrayer" loading="lazy" onerror="this.remove()" style=""><span class="p-name">Rosanne McBrayer</span></div>
     </div>
     <div class="slide">
       <blockquote>"After just one session, I walked away with practical, actionable tactics I could immediately apply. It's rare to find a workshop that's not only insightful, but truly actionable the moment you leave."</blockquote>
-      <p class="p-name">Denyse</p>
+      <div class="s-person"><img src="denyse.png" alt="Denyse" loading="lazy" onerror="this.remove()" style=""><span class="p-name">Denyse</span></div>
     </div>
     <div class="slide">
       <blockquote>"I feel much more confident in my ability to facilitate effectively &mdash; not just to guide discussions, but to truly provoke insight and galvanize change within groups. I would highly recommend this program to anyone looking to elevate their facilitation skills."</blockquote>
-      <p class="p-name">Tracy Xiong-Morel</p>
+      <div class="s-person"><img src="tracy.png" alt="Tracy Xiong-Morel" loading="lazy" onerror="this.remove()" style=""><span class="p-name">Tracy Xiong-Morel</span></div>
     </div>
     <div class="slide">
       <blockquote>"I did (and do) consider myself a seasoned facilitator, so I was quite surprised at how useful and engaging the programme was. Whether you've been doing this for 1 year or 10, this is the programme for you!"</blockquote>
-      <p class="p-name">Rina G Lynch</p>
+      <div class="s-person"><img src="rina.png" alt="Rina G Lynch" loading="lazy" onerror="this.remove()" style=""><span class="p-name">Rina G Lynch</span></div>
     </div>
     <div class="slide">
       <blockquote>"If you know you're capable of more impact but you're tired of forcing it, do this programme. It'll change how you lead."</blockquote>
-      <p class="p-name">Stefani Okamoto</p>
+      <div class="s-person"><img src="stefani.png" alt="Stefani Okamoto" loading="lazy" onerror="this.remove()" style=""><span class="p-name">Stefani Okamoto</span></div>
     </div>
     <div class="slide">
       <blockquote>"Lead the Room demystified facilitation for me &mdash; it's an art we bring ourselves to, but it's also a science. Now that I have the science down, I know I can practise bringing my own magic. If you're considering joining, you won't regret it."</blockquote>
-      <p class="p-name">Marlenne Johnson</p>
+      <div class="s-person"><img src="marlenne.png" alt="Marlenne Johnson" loading="lazy" onerror="this.remove()" style=""><span class="p-name">Marlenne Johnson</span></div>
     </div>
     <div class="slide">
       <blockquote>"After years of designing and facilitating learning experiences, I wasn't sure how much another facilitation workshop could teach me. I was wrong. Lead the Room reminded me that great facilitators do much more than deliver content &mdash; they create experiences that change people."</blockquote>
-      <p class="p-name">Marian McClure</p>
+      <div class="s-person"><img src="marian.png" alt="Marian McClure" loading="lazy" onerror="this.remove()" style=""><span class="p-name">Marian McClure</span></div>
     </div>
   </div>
   <div class="dots" id="dots"></div>
@@ -216,7 +218,7 @@
 
 <!-- ============ LOGO CAROUSEL ============ -->
 <div style="padding: 0 24px 70px;">
-  <p class="logo-label">Proudly worked with 1000's of leaders at:</p>
+  <p class="logo-label">From the people trusted by:</p>
   <div class="logo-carousel">
     <div class="logo-track">
       <div class="logo-item"><img src="microsoft.png" alt="Microsoft" decoding="async"></div>
