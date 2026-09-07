@@ -10,6 +10,34 @@
 
   gtag('config', 'G-TGP16DYNM8');
 </script>
+<script>
+(function () {
+  var KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','li_fat_id'];
+  var q = new URLSearchParams(location.search);
+  var stored = {};
+  try { stored = JSON.parse(localStorage.getItem('ltr_attr') || '{}'); } catch (e) {}
+  // A fresh visit carrying a utm_source overwrites what we had
+  if (q.get('utm_source')) {
+    stored = {};
+    KEYS.forEach(function (k) { if (q.get(k)) stored[k] = q.get(k); });
+    stored.landed_at = new Date().toISOString();
+    try { localStorage.setItem('ltr_attr', JSON.stringify(stored)); } catch (e) {}
+  }
+  if (!Object.keys(stored).length) return;
+  function decorate() {
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      if (!/pay\.leadtheroomsprint\.com/.test(a.href)) return;
+      var u = new URL(a.href, location.href);
+      KEYS.forEach(function (k) {
+        if (stored[k] && !u.searchParams.has(k)) u.searchParams.set(k, stored[k]);
+      });
+      a.href = u.toString();
+    });
+  }
+  decorate();
+  document.addEventListener('DOMContentLoaded', decorate);
+})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lead the Room Sprint</title>
@@ -793,27 +821,31 @@
 
     <div class="t-card">
       <blockquote>"If you need to influence outcomes in rooms where you're not the most senior person, this is very much built for you. I found myself using the tools the very next week in real meetings."</blockquote>
-      <div class="person"><div class="p-avatar"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg></div><span class="p-name">Rosanne McBrayer</span></div>
+      <div class="person"><div class="p-avatar" style="position:relative; overflow:hidden;"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg><img src="rosanne.png" alt="Rosanne McBrayer" loading="lazy" onerror="this.remove()" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"></div><span class="p-name">Rosanne McBrayer</span></div>
     </div>
     <div class="t-card">
       <blockquote>"After just one session, I walked away with practical, actionable tactics I could immediately apply. It's rare to find a workshop that's not only insightful, but truly actionable the moment you leave."</blockquote>
-      <div class="person"><div class="p-avatar"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg></div><span class="p-name">Denyse</span></div>
+      <div class="person"><div class="p-avatar" style="position:relative; overflow:hidden;"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg><img src="denyse.png" alt="Denyse Hannon" loading="lazy" onerror="this.remove()" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"></div><span class="p-name">Denyse Hannon</span></div>
     </div>
     <div class="t-card">
       <blockquote>"I feel much more confident in my ability to facilitate effectively &mdash; not just to guide discussions, but to truly provoke insight and galvanize change within groups. I would highly recommend this program to anyone looking to elevate their facilitation skills."</blockquote>
-      <div class="person"><div class="p-avatar"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg></div><span class="p-name">Tracy Xiong-Morel</span></div>
+      <div class="person"><div class="p-avatar" style="position:relative; overflow:hidden;"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg><img src="tracy.png" alt="Tracy Xiong-Morel" loading="lazy" onerror="this.remove()" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"></div><span class="p-name">Tracy Xiong-Morel</span></div>
     </div>
     <div class="t-card">
       <blockquote>"I did (and do) consider myself a seasoned facilitator, so I was quite surprised at how useful and engaging the programme was. Whether you've been doing this for 1 year or 10, this is the programme for you!"</blockquote>
-      <div class="person"><div class="p-avatar"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg></div><span class="p-name">Rina G Lynch</span></div>
+      <div class="person"><div class="p-avatar" style="position:relative; overflow:hidden;"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg><img src="rina.png" alt="Rina G Lynch" loading="lazy" onerror="this.remove()" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"></div><span class="p-name">Rina G Lynch</span></div>
     </div>
     <div class="t-card">
       <blockquote>"If you know you're capable of more impact but you're tired of forcing it, do this programme. It'll change how you lead."</blockquote>
-      <div class="person"><div class="p-avatar"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg></div><span class="p-name">Stefani Okamoto</span></div>
+      <div class="person"><div class="p-avatar" style="position:relative; overflow:hidden;"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg><img src="stefani.png" alt="Stefani Okamoto" loading="lazy" onerror="this.remove()" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"></div><span class="p-name">Stefani Okamoto</span></div>
     </div>
     <div class="t-card">
       <blockquote>"Lead the Room demystified facilitation for me &mdash; it's an art we bring ourselves to, but it's also a science. Now that I have the science down, I know I can practise bringing my own magic. If you're considering joining, you won't regret it."</blockquote>
-      <div class="person"><div class="p-avatar"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg></div><span class="p-name">Marlenne Johnson</span></div>
+      <div class="person"><div class="p-avatar" style="position:relative; overflow:hidden;"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg><img src="marlenne.png" alt="Marlenne Johnson" loading="lazy" onerror="this.remove()" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"></div><span class="p-name">Marlenne Johnson</span></div>
+    </div>
+    <div class="t-card">
+      <blockquote>"After years of designing and facilitating learning experiences, I wasn't sure how much another facilitation workshop could teach me. I was wrong. Lead the Room reminded me that great facilitators do much more than deliver content &mdash; they create experiences that change people."</blockquote>
+      <div class="person"><div class="p-avatar" style="position:relative; overflow:hidden;"><svg viewBox="0 0 24 24" width="26" height="26" fill="#ffffff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3.6 0-9 1.8-9 5.4V21h18v-1.35c0-3.6-5.4-5.4-9-5.4z"/></svg><img src="marian.png" alt="Marian McClure" loading="lazy" onerror="this.remove()" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"></div><span class="p-name">Marian McClure</span></div>
     </div>
   </div>
 </section>
