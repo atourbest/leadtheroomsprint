@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TGP16DYNM8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TGP16DYNM8');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Guide — Lead the Room Sprint</title>
+<meta name="description" content="The Lead the Room Field Guide — the complete method, every exercise, and session design templates.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1029;
+    --card: #23264a;
+    --line: rgba(255,255,255,.08);
+    --text: #ffffff;
+    --muted: #9aa1c2;
+    --grad: linear-gradient(90deg, #e02f75 0%, #f05a3c 55%, #f9a03b 100%);
+    --radius: 20px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  .logotype {
+    text-align: center;
+    padding: 40px 24px 0;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+  }
+  .logotype .mark {
+    background: var(--grad);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .subtitle { text-align: center; margin-top: 10px; }
+  .subtitle img { max-height: 72px; width: auto; }
+
+  /* ---------- testimonial slideshow ---------- */
+  .slideshow {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 64px;
+  }
+  .slides {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    min-height: 250px;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    padding: 38px 36px;
+    opacity: 0;
+    transition: opacity .8s ease;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .slide blockquote { color: var(--muted); font-size: 17px; }
+  .slide .p-name { font-weight: 700; font-size: 16px; margin-top: 18px; }
+  .dots { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+  .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--line);
+    border: none; cursor: pointer; padding: 0;
+  }
+  .dot.active { background: linear-gradient(90deg, #e02f75, #f9a03b); }
+  @media (max-width: 600px) {
+    .slides { min-height: 340px; }
+    .slide { padding: 28px 24px; }
+  }
+
+  /* ---------- logo carousel ---------- */
+  .logo-label {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase;
+  }
+  .logo-carousel {
+    overflow: hidden;
+    margin: 28px auto 0;
+    max-width: 960px;
+    position: relative;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  .logo-track {
+    display: flex;
+    gap: 18px;
+    width: max-content;
+    animation: logo-scroll 30s linear infinite;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .logo-carousel:hover .logo-track { animation-play-state: paused; }
+  .logo-item {
+    width: 170px; height: 76px;
+    flex-shrink: 0;
+    background: var(--card);
+    border: 1px dashed rgba(255,255,255,.2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-item img { max-width: 130px; max-height: 48px; object-fit: contain; }
+  @keyframes logo-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .guide {
+    margin-top: 40px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  .guide iframe { display: block; }
+
+  .community {
+    text-align: center;
+    padding: 48px 24px 70px;
+  }
+  .community p { color: var(--muted); font-size: 17px; margin-bottom: 24px; }
+  .btn {
+    display: inline-block;
+    background: var(--grad);
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 18px 48px;
+    border-radius: 14px;
+    text-decoration: none;
+    box-shadow: 0 0 40px rgba(224, 47, 117, .35);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 0 55px rgba(224, 47, 117, .5); }
+
+  footer { text-align: center; padding: 0 0 50px; color: var(--muted); font-size: 15px; }
+</style>
+</head>
+<body>
+
+<header class="logotype">Lead the <span class="mark">Room</span></header>
+<p class="subtitle"><img src="fieldguide.png" alt="Field Guide"></p>
+
+<div class="container">
+  <div class="guide">
+    <iframe width="100%" height="700" src="https://go.fliplink.me/view/leadtheroom?title=LeadtheRoomFieldGuide" frameborder="0" allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="community">
+  <p>Lab notes, video bites, and your fellow leaders live in the community.</p>
+  <a class="btn" href="https://www.skool.com/leadtheroom-4280" target="_blank" rel="noopener">Join Us in the Community &rarr;</a>
+</div>
+
+<!-- ============ TESTIMONIAL SLIDESHOW ============ -->
+<div class="slideshow" aria-label="What participants say">
+  <h2 style="text-align:center; font-weight:800; letter-spacing:-.02em; font-size:clamp(26px, 4.5vw, 38px); margin-bottom:28px;">Loved by ambitious leaders</h2>
+  <div class="slides" id="slides">
+    <div class="slide active">
+      <blockquote>"If you need to influence outcomes in rooms where you're not the most senior person, this is very much built for you. I found myself using the tools the very next week in real meetings."</blockquote>
+      <p class="p-name">Rosanne McBrayer</p>
+    </div>
+    <div class="slide">
+      <blockquote>"After just one session, I walked away with practical, actionable tactics I could immediately apply. It's rare to find a workshop that's not only insightful, but truly actionable the moment you leave."</blockquote>
+      <p class="p-name">Denyse</p>
+    </div>
+    <div class="slide">
+      <blockquote>"I feel much more confident in my ability to facilitate effectively &mdash; not just to guide discussions, but to truly provoke insight and galvanize change within groups. I would highly recommend this program to anyone looking to elevate their facilitation skills."</blockquote>
+      <p class="p-name">Tracy Xiong-Morel</p>
+    </div>
+    <div class="slide">
+      <blockquote>"I did (and do) consider myself a seasoned facilitator, so I was quite surprised at how useful and engaging the programme was. Whether you've been doing this for 1 year or 10, this is the programme for you!"</blockquote>
+      <p class="p-name">Rina G Lynch</p>
+    </div>
+    <div class="slide">
+      <blockquote>"If you know you're capable of more impact but you're tired of forcing it, do this programme. It'll change how you lead."</blockquote>
+      <p class="p-name">Stefani Okamoto</p>
+    </div>
+    <div class="slide">
+      <blockquote>"Lead the Room demystified facilitation for me &mdash; it's an art we bring ourselves to, but it's also a science. Now that I have the science down, I know I can practise bringing my own magic. If you're considering joining, you won't regret it."</blockquote>
+      <p class="p-name">Marlenne Johnson</p>
+    </div>
+    <div class="slide">
+      <blockquote>"After years of designing and facilitating learning experiences, I wasn't sure how much another facilitation workshop could teach me. I was wrong. Lead the Room reminded me that great facilitators do much more than deliver content &mdash; they create experiences that change people."</blockquote>
+      <p class="p-name">Marian McClure</p>
+    </div>
+  </div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<!-- ============ LOGO CAROUSEL ============ -->
+<div style="padding: 0 24px 70px;">
+  <p class="logo-label">Proudly worked with 1000's of leaders at:</p>
+  <div class="logo-carousel">
+    <div class="logo-track">
+      <div class="logo-item"><img src="microsoft.png" alt="Microsoft" decoding="async"></div>
+      <div class="logo-item"><img src="netflix.png" alt="Netflix" decoding="async"></div>
+      <div class="logo-item"><img src="hsbc.png" alt="HSBC" decoding="async"></div>
+      <div class="logo-item"><img src="intuit.png" alt="Intuit" decoding="async"></div>
+      <div class="logo-item"><img src="equinix.png" alt="Equinix" decoding="async"></div>
+      <div class="logo-item"><img src="goldman.png" alt="Goldman Sachs" decoding="async"></div>
+      <div class="logo-item"><img src="nordea.png" alt="Nordea" decoding="async"></div>
+      <div class="logo-item"><img src="bupa.png" alt="Bupa" decoding="async"></div>
+      <div class="logo-item"><img src="oq.png" alt="OQ" decoding="async"></div>
+      <div class="logo-item"><img src="wells.png" alt="Wells Fargo" decoding="async"></div>
+      <div class="logo-item"><img src="microsoft.png" alt="Microsoft" decoding="async"></div>
+      <div class="logo-item"><img src="netflix.png" alt="Netflix" decoding="async"></div>
+      <div class="logo-item"><img src="hsbc.png" alt="HSBC" decoding="async"></div>
+      <div class="logo-item"><img src="intuit.png" alt="Intuit" decoding="async"></div>
+      <div class="logo-item"><img src="equinix.png" alt="Equinix" decoding="async"></div>
+      <div class="logo-item"><img src="goldman.png" alt="Goldman Sachs" decoding="async"></div>
+      <div class="logo-item"><img src="nordea.png" alt="Nordea" decoding="async"></div>
+      <div class="logo-item"><img src="bupa.png" alt="Bupa" decoding="async"></div>
+      <div class="logo-item"><img src="oq.png" alt="OQ" decoding="async"></div>
+      <div class="logo-item"><img src="wells.png" alt="Wells Fargo" decoding="async"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var slides = document.querySelectorAll("#slides .slide");
+  var dotsHolder = document.getElementById("dots");
+  var current = 0, timer;
+
+  slides.forEach(function (_, i) {
+    var d = document.createElement("button");
+    d.className = "dot" + (i === 0 ? " active" : "");
+    d.setAttribute("aria-label", "Show testimonial " + (i + 1));
+    d.addEventListener("click", function () { show(i); restart(); });
+    dotsHolder.appendChild(d);
+  });
+  var dots = dotsHolder.querySelectorAll(".dot");
+
+  function show(i) {
+    slides[current].classList.remove("active");
+    dots[current].classList.remove("active");
+    current = i;
+    slides[current].classList.add("active");
+    dots[current].classList.add("active");
+  }
+  function next() { show((current + 1) % slides.length); }
+  function restart() { clearInterval(timer); timer = setInterval(next, 6000); }
+
+  var holder = document.getElementById("slides");
+  holder.addEventListener("mouseenter", function () { clearInterval(timer); });
+  holder.addEventListener("mouseleave", restart);
+  restart();
+})();
+</script>
+
+<footer>&copy; AT OUR BEST LTD 2026. All rights reserved.</footer>
+
+</body>
+</html>
