@@ -56,7 +56,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="hero_1.jpg">
 <style>
   :root {
     --bg: #0e1029;              /* deep navy page background */
@@ -609,6 +608,9 @@
 
 <!-- ============ PROMO BAR ============ -->
 
+<!-- ============ MASTERCLASS STRIP ============ -->
+<a class="promo-bar" href="replay.html"><strong>🎬 Watch the free 45-minute masterclass:</strong> The 3 Secrets Every Leader Can Learn to Lead Any Room &rarr;</a>
+
 <!-- ============ LOGOTYPE ============ -->
 <header class="logotype">Lead the Room <span class="mark">Sprint</span></header>
 
@@ -650,25 +652,21 @@
   </div>
 </section>
 
-<!-- ============ 3. WHAT IS IT ============ -->
+<!-- ============ 3. LEARN IT LIVE ============ -->
 <section class="center" style="padding-top:45px; padding-bottom:45px;">
   <div class="container">
     <p class="eyebrow">The Program</p>
-    <h2>How does Lead the Room work?</h2>
-    <p class="lead">Thirty years of leading rooms taught us it comes down to four things. You build CONFIDENCE to own the room, sharpen SKILLS to influence it, master ENERGY to read and move it, and use DESIGN to shape it &mdash; one lab per skill, two weeks, every session practised live.</p>
-    <img src="hero_1.jpg" alt="Lead the Room" width="1344" height="756" decoding="async" style="width:100%; height:auto; border-radius:20px; margin-top:48px; display:block;">
-  </div>
-</section>
-
-<!-- ============ 3a. LEARN IT LIVE ============ -->
-<section class="center" style="padding-top:0; padding-bottom:45px;">
-  <div class="container">
     <h2>Learn it live. Put it to work.</h2>
-    <img src="learn.png" alt="Learn it live — inside a Lead the Room lab" decoding="async" onerror="this.style.display='none'" style="width:100%; height:auto; border-radius:20px; margin-top:48px; display:block;">
-    <p class="lead">Each live lab gives you a practical approach you can use in the situations you already face.</p>
-    <p class="lead"><strong style="color:#ffffff;">See it in action.</strong> Jason and Michele demonstrate the method as they teach, so you experience what makes it work.</p>
-    <p class="lead"><strong style="color:#ffffff;">Make it yours.</strong> Bring a real situation, explore it with others, and start shaping how you’ll approach it differently.</p>
-    <p class="lead"><strong style="color:#ffffff;">Use it in your working day.</strong> Leave with a clear next step&mdash;something to try when you’re introducing an idea, navigating a difficult conversation, sharing knowledge, or helping people move forward.</p>
+
+    <div style="border-radius:20px; overflow:hidden; margin-top:48px; text-align:left;">
+      <img src="learn.png" alt="Learn it live — see it in action, make it yours, use it in your working day" decoding="async" onerror="this.style.display='none'" style="width:100%; height:auto; display:block;">
+      <div style="background:#dbe7f8; padding:34px 36px;">
+        <p style="color:#22304f; font-size:18px;">Each live lab gives you a practical approach you can use in the situations you already face.</p>
+        <p style="color:#22304f; font-size:18px; margin-top:16px;"><strong style="color:#0e1029;">See it in action.</strong> Jason and Michele demonstrate the method as they teach, so you experience what makes it work.</p>
+        <p style="color:#22304f; font-size:18px; margin-top:16px;"><strong style="color:#0e1029;">Make it yours.</strong> Bring a real situation, explore it with others, and start shaping how you&rsquo;ll approach it differently.</p>
+        <p style="color:#22304f; font-size:18px; margin-top:16px;"><strong style="color:#0e1029;">Use it in your working day.</strong> Leave with a clear next step&mdash;something to try when you&rsquo;re introducing an idea, navigating a difficult conversation, sharing knowledge, or helping people move forward.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -988,25 +986,6 @@
   </div>
 </div>
 
-<!-- ============ LEAD MAGNET POPUP ============ -->
-<div class="popup-overlay" id="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title">
-  <div class="popup">
-    <button class="popup-close" id="popup-close" aria-label="Close">&times;</button>
-    <p class="p-eyebrow">Before You Decide</p>
-    <h3 id="popup-title">Not ready to join yet?<br>Watch the free masterclass first.</h3>
-    <p><strong style="color:#ffffff;">The 3 Secrets Every Leader Can Learn to Lead Any Room</strong> &mdash; a free 45-minute masterclass with Jason &amp; Michele.</p>
-    <form id="popup-form" novalidate>
-      <input type="email" id="popup-email" name="email" autocomplete="email" placeholder="you@company.com" required>
-      <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <label class="consent">
-        <input type="checkbox" id="popup-consent" required>
-        <span>I agree to receive emails from Lead the Room with related content. I can unsubscribe at any time. See our <a href="https://leadtheroom.notion.site/privacy" target="_blank" rel="noopener" style="color:var(--accent-soft);">privacy policy</a>.</span>
-      </label>
-      <button class="btn" type="submit" id="popup-submit">Watch the Masterclass Now &rarr;</button>
-    </form>
-  </div>
-</div>
-
 <script>
   // Countdown to Lab 1 of the September cohort.
   var cohortBegins = new Date("2026-09-15T17:00:00+01:00"); // Lab 1 — 5:00 PM BST
@@ -1071,75 +1050,7 @@
     });
   });
 
-  /* ============ LEAD MAGNET POPUP ============ */
-  // Shows once per visitor: after 30 seconds on page, or on exit intent
-  // (cursor leaving the top of the window), whichever happens first.
-  // Captured emails go to the same Google Sheet + Pabbly (→ SendFox) pipeline
-  // as the webinar sign-up form; the "page" field marks them as popup leads.
-  var POPUP_DELAY_MS = 30000;
-  var POPUP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzINGh1lIc-4lMLIDsKG-tGNkgl6j_F49TIvU0MacqO1pkpdhqkAorO15PaKHGWlMqY/exec";
-  // IMPORTANT: this must be a SEPARATE Pabbly workflow from the webinar one,
-  // or popup leads will receive the (now finished) webinar email sequence.
-  // Create a new workflow in Pabbly (Webhook trigger → SendFox, its own list),
-  // then paste its webhook URL here.
-  var POPUP_PABBLY_URL = "https://connect.pabbly.com/webhook-listener/webhook/IjU3NjEwNTZiMDYzNjA0M2Q1MjY4NTUzMCI_3D_pc/IjU3NjcwNTY4MDYzNDA0MzI1MjZhNTUzNDUxMzAi_pc";
-
-  var overlay = document.getElementById("popup-overlay");
-
-  function popupSeen() {
-    try { return localStorage.getItem("ltr-popup-seen") === "1"; } catch (e) { return false; }
-  }
-  function markPopupSeen() {
-    try { localStorage.setItem("ltr-popup-seen", "1"); } catch (e) {}
-  }
-  function showPopup() {
-    if (popupSeen() || overlay.classList.contains("show")) return;
-    overlay.classList.add("show");
-    markPopupSeen();
-  }
-  function hidePopup() { overlay.classList.remove("show"); }
-
-  if (!popupSeen()) {
-    setTimeout(showPopup, POPUP_DELAY_MS);
-    document.addEventListener("mouseout", function (e) {
-      if (!e.relatedTarget && e.clientY <= 0) showPopup(); // exit intent (desktop)
-    });
-  }
-
-  document.getElementById("popup-close").addEventListener("click", hidePopup);
-  overlay.addEventListener("click", function (e) { if (e.target === overlay) hidePopup(); });
-
-  document.getElementById("popup-form").addEventListener("submit", function (e) {
-    e.preventDefault();
-    var form = e.target;
-    var email = document.getElementById("popup-email").value.trim();
-    if (form.querySelector(".hp").value) return; // bot
-    if (!email || email.indexOf("@") === -1) {
-      alert("Please enter a valid email address.");
-      return;
-    }
-    if (!document.getElementById("popup-consent").checked) {
-      alert("Please tick the consent box to continue.");
-      return;
-    }
-    var btn = document.getElementById("popup-submit");
-    btn.disabled = true;
-    btn.textContent = "Opening the masterclass…";
-
-    var payload = { email: email, consent: "yes", page: location.href + "#popup", ts: new Date().toISOString() };
-    var requests = [
-      fetch(POPUP_SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(payload) })
-    ];
-    if (POPUP_PABBLY_URL.indexOf("https://") === 0) {
-      requests.push(fetch(POPUP_PABBLY_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(payload) }).catch(function () {}));
-    }
-    // Fire the captures, then go straight to the insider offer page either way —
-    // the visitor shouldn't be blocked by a background request.
-    Promise.all(requests).catch(function () {}).then(function () {
-      window.location.href = "insider.html";
-    });
-  });
-</script>
+  </script>
 
 </body>
 </html>
