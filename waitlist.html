@@ -609,7 +609,7 @@
 <!-- ============ PROMO BAR ============ -->
 
 <!-- ============ MASTERCLASS STRIP ============ -->
-<a class="promo-bar" href="replay.html"><strong>🎬 Watch the free 45-minute masterclass:</strong> The 3 Secrets Every Leader Can Learn to Lead Any Room &rarr;</a>
+<a class="promo-bar mc-open" href="#masterclass"><strong>🎬 Watch the free 45-minute masterclass:</strong> The 3 Secrets Every Leader Can Learn to Lead Any Room &rarr;</a>
 
 <!-- ============ LOGOTYPE ============ -->
 <header class="logotype">Lead the Room <span class="mark">Sprint</span></header>
@@ -963,6 +963,25 @@
 <!-- ============ STICKY CTA ============ -->
 <div class="sticky-cta"><a class="btn waitlist-open" href="#waitlist">Join the Waitlist</a></div>
 
+<!-- ============ MASTERCLASS MODAL ============ -->
+<div class="popup-overlay" id="mc-overlay" role="dialog" aria-modal="true" aria-labelledby="mc-title">
+  <div class="popup">
+    <button class="popup-close" id="mc-close" aria-label="Close">&times;</button>
+    <p class="p-eyebrow">Free Masterclass</p>
+    <h3 id="mc-title">Watch the free masterclass</h3>
+    <p><strong style="color:#ffffff;">The 3 Secrets Every Leader Can Learn to Lead Any Room</strong> &mdash; a free 45-minute masterclass with Jason &amp; Michele.</p>
+    <form id="mc-form" novalidate>
+      <input type="email" id="mc-email" name="email" autocomplete="email" placeholder="you@company.com" required>
+      <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="consent">
+        <input type="checkbox" id="mc-consent" required>
+        <span>I agree to receive emails from Lead the Room with related content. I can unsubscribe at any time. See our <a href="https://leadtheroom.notion.site/privacy" target="_blank" rel="noopener" style="color:var(--accent-soft);">privacy policy</a>.</span>
+      </label>
+      <button class="btn" type="submit" id="mc-submit">Watch the Masterclass Now &rarr;</button>
+    </form>
+  </div>
+</div>
+
 <!-- ============ WAITLIST MODAL ============ -->
 <div class="popup-overlay" id="waitlist-overlay" role="dialog" aria-modal="true" aria-labelledby="waitlist-title">
   <div class="popup">
@@ -1007,6 +1026,44 @@
 
   tick();
   setInterval(tick, 1000);
+
+  /* ============ MASTERCLASS MODAL ============ */
+  // Same Google Sheet as the waitlist; rows tagged "#masterclass" in the Page column.
+  var mcOverlay = document.getElementById("mc-overlay");
+  document.querySelectorAll(".mc-open").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      mcOverlay.classList.add("show");
+    });
+  });
+  document.getElementById("mc-close").addEventListener("click", function () { mcOverlay.classList.remove("show"); });
+  mcOverlay.addEventListener("click", function (e) { if (e.target === mcOverlay) mcOverlay.classList.remove("show"); });
+
+  document.getElementById("mc-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var form = e.target;
+    var email = document.getElementById("mc-email").value.trim();
+    if (form.querySelector(".hp").value) return; // bot
+    if (!email || email.indexOf("@") === -1) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    if (!document.getElementById("mc-consent").checked) {
+      alert("Please tick the consent box to continue.");
+      return;
+    }
+    var btn = document.getElementById("mc-submit");
+    btn.disabled = true;
+    btn.textContent = "Opening the masterclass…";
+    fetch(WAITLIST_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ email: email, consent: "yes", page: location.href + "#masterclass", ts: new Date().toISOString() })
+    }).catch(function () {}).then(function () {
+      window.location.href = "replay.html";
+    });
+  });
 
   /* ============ WAITLIST MODAL ============ */
   // Posts to the same Google Sheet as the masterclass popup; rows are tagged
