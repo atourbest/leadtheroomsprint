@@ -180,7 +180,7 @@
 
 <script>
 /* ============ CONFIG ============ */
-const UPLOAD_URL = "https://script.google.com/macros/s/AKfycbwa1ZVKehsp52DU1CSeA2VptQpR5LOLAiQSKYEatPKOxKMdT5gzo6UC09Uf19cHK2oA/exec";
+const UPLOAD_URL = "https://script.google.com/macros/s/AKfycbydqMaOHCCNhBTli0UTAcIHeUw9MroDHKZSABoB9cCKbiM-zPK-DxVvTgbw5ZxGDNDm/exec";
 const MAX_SECONDS = 120;          // recording cap
 const VIDEO_BITRATE = 1_200_000;  // keeps files small enough to upload
 /* ================================ */
@@ -382,13 +382,16 @@ async function send() {
       headers: { "Content-Type": "text/plain;charset=utf-8" }, // avoids a CORS preflight
       body: JSON.stringify(payload)
     });
-    const out = await r.json();
+    const text = await r.text();
+    let out;
+    try { out = JSON.parse(text); }
+    catch (_) { throw new Error("Server replied " + r.status + ", not JSON. Check the web app URL and that access is set to Anyone."); }
     if (!out.ok) throw new Error(out.error || "Upload failed");
     teardown();
     ["details","frame","controls","hint"].forEach(id => $(id).hidden = true);
     $("done").hidden = false;
   } catch (e) {
-    setError("Your video didn't send. Check your connection and tap Send again. Your recording is still here.");
+    setError("Your video didn't send. Check your connection and tap Send again. Your recording is still here. (Details: " + (e && e.message ? e.message : "unknown") + ")");
     btn.disabled = false; btn.textContent = "Send my Lab Note"; $("btnRedo").disabled = false;
   }
 }
