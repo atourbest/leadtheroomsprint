@@ -360,7 +360,7 @@ function redo() {
 function toBase64(b) {
   return new Promise((res, rej) => {
     const r = new FileReader();
-    r.onload = () => res(String(r.result).split(",")[1]);
+    r.onload = () => { const d = String(r.result); res(d.slice(d.indexOf(";base64,") + 8)); };
     r.onerror = () => rej(r.error);
     r.readAsDataURL(b);
   });
