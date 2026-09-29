@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lab Notes · Lead the Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* Lead the Room brand tokens */
+  :root {
+    --bg: #0e1029;
+    --bg-soft: #12142f;
+    --card: #23264a;
+    --card-soft: #1d2040;
+    --line: rgba(255,255,255,.08);
+    --text: #ffffff;
+    --muted: #9aa1c2;
+    --light: #cdd2e9;
+    --accent: #ed2e5c;
+    --accent-soft: #ff5b7f;
+    --orange: #f89c2e;
+    --grad: linear-gradient(90deg, #e02f75 0%, #f05a3c 55%, #f9a03b 100%);
+    --grad-vert: linear-gradient(160deg, #e02f75 0%, #f9a03b 100%);
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; }
+  :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 400 17px/1.6 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 672px; margin: 0 auto; padding: 44px 20px 40px; }
+  .eyebrow {
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .22em;
+    color: var(--orange); margin: 0 0 14px;
+  }
+  h1 {
+    font-weight: 800; font-size: clamp(44px, 12vw, 64px); line-height: 1.12;
+    letter-spacing: -.02em; margin: 0 0 18px;
+  }
+  .swash { position: relative; display: inline-block; }
+  .swash svg { position: absolute; left: -2%; bottom: -8px; width: 104%; height: 16px; overflow: visible; }
+  .lede { color: var(--light); font-size: 19px; margin: 0 0 24px; max-width: 34em; }
+  .why {
+    background: var(--card-soft); border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 20px 22px; margin: 0 0 32px; color: var(--muted);
+  }
+  .why strong { color: var(--text); }
+
+  label { display: block; font-weight: 700; font-size: 15px; margin: 0 0 8px; }
+  input {
+    width: 100%; font: inherit; color: var(--text); background: var(--card);
+    border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin: 0 0 16px;
+  }
+  input::placeholder { color: var(--muted); }
+  input:focus { outline: none; border-color: var(--accent-soft); box-shadow: 0 0 0 3px rgba(237,46,92,.25); }
+
+  .frame {
+    position: relative; aspect-ratio: 3 / 4; width: 100%;
+    background: #000; border: 1px solid var(--line);
+    border-radius: var(--radius); overflow: hidden; margin: 8px 0 20px;
+  }
+  @media (min-width: 600px) { .frame { aspect-ratio: 4 / 3; } }
+  .frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #live { transform: scaleX(-1); }
+  .empty {
+    position: absolute; inset: 0; display: grid; place-content: center; text-align: center;
+    color: var(--muted); padding: 24px; gap: 12px;
+  }
+  .empty svg { margin: 0 auto; opacity: .6; }
+  .hud {
+    position: absolute; left: 14px; right: 14px; top: 14px;
+    display: flex; justify-content: space-between; align-items: center; pointer-events: none;
+  }
+  .pill {
+    background: rgba(14,16,41,.72); color: #fff; border-radius: 999px;
+    padding: 6px 12px; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px;
+    font-variant-numeric: tabular-nums;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .25; } }
+  .meter { width: 54px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.2); overflow: hidden; }
+  .meter i { display: block; height: 100%; width: 0; background: #2ecc71; transition: width .08s linear; }
+  .count {
+    position: absolute; inset: 0; display: grid; place-content: center;
+    font-weight: 900; font-size: 120px; line-height: 1; color: #fff; background: rgba(14,16,41,.45);
+  }
+  .progress { position: absolute; left: 0; bottom: 0; height: 4px; background: var(--grad); width: 0; }
+
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  button {
+    font: 700 17px/1 "Inter", system-ui, sans-serif; border: 0; cursor: pointer; color: #fff;
+    border-radius: 14px; padding: 17px 26px; min-height: 54px;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  button:focus-visible { outline: 3px solid var(--accent-soft); outline-offset: 3px; }
+  button:disabled { opacity: .5; cursor: default; transform: none !important; }
+  .primary { background: var(--grad); box-shadow: 0 0 40px rgba(224,47,117,.35); }
+  .primary:hover:not(:disabled) { transform: translateY(-2px); }
+  .record { background: var(--grad); box-shadow: 0 0 40px rgba(224,47,117,.35); display: inline-flex; align-items: center; gap: 10px; }
+  .record:hover:not(:disabled) { transform: translateY(-2px); }
+  .record::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
+  .stop { background: var(--card); border: 1px solid rgba(255,255,255,.18); display: inline-flex; align-items: center; gap: 10px; }
+  .stop::before { content: ""; width: 12px; height: 12px; border-radius: 2px; background: var(--accent); }
+  .ghost { background: transparent; border: 1px solid rgba(255,255,255,.2); }
+
+  .hint { color: var(--muted); font-size: 15px; margin: 14px 0 0; }
+  .error { color: var(--accent-soft); font-size: 15px; margin: 14px 0 0; }
+  .done { background: var(--card); border-radius: var(--radius); padding: 40px; }
+  .done h2 { font-weight: 800; font-size: 32px; line-height: 1.12; letter-spacing: -.02em; margin: 0 0 10px; }
+  .done p { margin: 0; color: var(--muted); }
+  footer { max-width: 672px; margin: 0 auto; padding: 24px 20px 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+  .help {
+    background: var(--card-soft); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px 24px; margin: 16px 0 0; color: var(--light); font-size: 16px;
+  }
+  .help h3 { margin: 0 0 10px; font-size: 18px; font-weight: 800; color: var(--text); }
+  .help ol { margin: 0 0 14px; padding-left: 22px; }
+  .help li { margin: 0 0 8px; }
+  .help b { color: var(--text); }
+  .help .row { margin-top: 6px; }
+  .link { background: none; border: 0; padding: 0; min-height: 0; color: var(--accent-soft); font-weight: 700; font-size: 15px; text-decoration: underline; cursor: pointer; }
+  .alt { margin: 14px 0 0; font-size: 15px; color: var(--muted); }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) { .dot { animation: none; } button { transition: none; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Lead the Room</p>
+  <h1>Lab <span class="swash">Notes<svg viewBox="0 0 200 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 11 C 50 3, 120 3, 197 9" fill="none" stroke="#ed2e5c" stroke-width="5" stroke-linecap="round"/></svg></span></h1>
+  <p class="lede">Share your experiment, what happened, and what new approach you might take.</p>
+  <p class="why">Record it right here in your browser. No app, nothing to upload. <strong>Saying it out loud is part of the practice.</strong> One viewer, no edits, no grade. Say it imperfectly and send it anyway.</p>
+
+  <section id="details">
+    <label for="name">Your name</label>
+    <input id="name" autocomplete="name" placeholder="First and last">
+  </section>
+
+  <div class="frame" id="frame">
+    <video id="live" playsinline muted autoplay hidden></video>
+    <video id="review" playsinline controls hidden></video>
+    <div class="empty" id="empty">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>
+      <span>Your camera preview shows here.</span>
+    </div>
+    <div class="hud" id="hud" hidden>
+      <span class="pill" id="recPill" hidden><span class="dot"></span><span id="timer">0:00</span></span>
+      <span class="pill" title="Microphone level"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg><span class="meter"><i id="level"></i></span></span>
+    </div>
+    <div class="count" id="count" hidden></div>
+    <div class="progress" id="progress"></div>
+  </div>
+
+  <div class="row" id="controls">
+    <button class="primary" id="btnCamera">Turn on camera and mic</button>
+    <button class="record" id="btnRecord" hidden>Start recording</button>
+    <button class="stop" id="btnStop" hidden>Stop</button>
+    <button class="primary" id="btnSend" hidden>Send my Lab Note</button>
+    <button class="ghost" id="btnRedo" hidden>Record again</button>
+  </div>
+  <p class="hint" id="hint">You can record up to 2 minutes. You'll watch it back before sending.</p>
+  <p class="error" id="error" role="alert" hidden></p>
+  <div class="help" id="help" hidden></div>
+  <p class="alt" id="altWrap">Camera not working? <button class="link" id="btnNative" type="button">Record with your phone's camera app instead</button></p>
+  <input type="file" id="nativeFile" accept="video/*" capture="user" hidden>
+
+  <section class="done" id="done" hidden>
+    <h2>Lab Note sent. Thank you.</h2>
+    <p>Jason &amp; Michele have it. You can close this page.</p>
+  </section>
+</main>
+<footer>© AT OUR BEST LTD 2026. All rights reserved.</footer>
+
+<script>
+/* ============ CONFIG ============ */
+const UPLOAD_URL = "https://script.google.com/macros/s/AKfycbwa1ZVKehsp52DU1CSeA2VptQpR5LOLAiQSKYEatPKOxKMdT5gzo6UC09Uf19cHK2oA/exec";
+const MAX_SECONDS = 120;          // recording cap
+const VIDEO_BITRATE = 1_200_000;  // keeps files small enough to upload
+/* ================================ */
+
+const $ = id => document.getElementById(id);
+const live = $("live"), review = $("review");
+let stream, recorder, chunks = [], blob, mimeType, audioCtx, rafId, tickId, startedAt;
+
+function pickMime() {
+  const opts = ["video/mp4;codecs=avc1,mp4a", "video/mp4", "video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"];
+  return opts.find(t => window.MediaRecorder && MediaRecorder.isTypeSupported(t)) || "";
+}
+function show(...ids) { ["btnCamera","btnRecord","btnStop","btnSend","btnRedo"].forEach(id => $(id).hidden = !ids.includes(id)); }
+function setError(msg) { $("error").textContent = msg || ""; $("error").hidden = !msg; }
+function fmt(s) { return Math.floor(s / 60) + ":" + String(Math.floor(s % 60)).padStart(2, "0"); }
+
+const ua = navigator.userAgent;
+const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const isAndroid = /Android/.test(ua);
+const inAppBrowser = /FBAN|FBAV|Instagram|LinkedInApp|Line\/|GSA\/|Skool|wv\)/i.test(ua) ||
+  (isIOS && !/Safari\//.test(ua) && !/CriOS|FxiOS|EdgiOS/.test(ua));
+const inFrame = (() => { try { return window.self !== window.top; } catch (_) { return true; } })();
+
+function helpSteps(kind) {
+  if (kind === "inapp") return `<h3>Open this page in ${isIOS ? "Safari" : "Chrome"}</h3>
+    <p>You're viewing this inside another app, and it won't share your camera. Copy the link and open it in ${isIOS ? "Safari" : "your browser"}.</p>
+    <div class="row"><button class="primary" id="btnCopy" type="button">Copy link</button></div>`;
+  if (kind === "frame") return `<h3>Open this page on its own</h3>
+    <p>This page is embedded inside another page, which blocks the camera.</p>
+    <div class="row"><a class="primary" style="display:inline-block;text-decoration:none;color:#fff;border-radius:14px;padding:17px 26px;font-weight:700" href="${location.href}" target="_blank" rel="noopener">Open in a new tab</a></div>`;
+  if (kind === "busy") return `<h3>Your camera is busy</h3>
+    <p>Another app is using it. Close FaceTime, Zoom, Teams, or any camera app, then try again.</p>
+    <div class="row"><button class="primary" id="btnRetry" type="button">Try again</button></div>`;
+  if (kind === "none") return `<h3>No camera or microphone found</h3>
+    <p>Check that one is connected, then try again.</p>
+    <div class="row"><button class="primary" id="btnRetry" type="button">Try again</button></div>`;
+  // blocked
+  let steps;
+  if (isIOS) steps = `<ol>
+      <li>Reload this page and tap <b>Allow</b> when Safari asks about the camera and microphone.</li>
+      <li>No pop-up? Tap the page menu button at the left of the address bar, choose <b>Website Settings</b>, and set <b>Camera</b> and <b>Microphone</b> to <b>Ask</b> or <b>Allow</b>.</li>
+      <li>Still blocked? Open the <b>Settings</b> app, go to <b>Apps → Safari</b> (or just <b>Safari</b> on older iPhones), scroll to <b>Camera</b> and <b>Microphone</b>, and choose <b>Ask</b> or <b>Allow</b>.</li>
+      <li>If Screen Time is on, check <b>Screen Time → Content &amp; Privacy Restrictions → Allowed Apps</b> and make sure Camera is on.</li>
+    </ol>`;
+  else if (isAndroid) steps = `<ol>
+      <li>Tap the icon at the left of the address bar, then <b>Permissions</b>.</li>
+      <li>Turn on <b>Camera</b> and <b>Microphone</b>, then reload.</li>
+      <li>Still blocked? In your phone's <b>Settings → Apps → Chrome → Permissions</b>, allow Camera and Microphone.</li>
+    </ol>`;
+  else steps = `<ol>
+      <li>Click the icon at the left of the address bar and allow <b>Camera</b> and <b>Microphone</b>, then reload.</li>
+      <li>On a Mac, also check <b>System Settings → Privacy &amp; Security → Camera</b> (and Microphone) and turn your browser on.</li>
+      <li>On Windows, check <b>Settings → Privacy &amp; security → Camera</b> (and Microphone).</li>
+    </ol>`;
+  return `<h3>Let this page use your camera and mic</h3>${steps}
+    <div class="row"><button class="primary" id="btnRetry" type="button">Try again</button>
+    <button class="ghost" type="button" onclick="location.reload()">Reload page</button></div>`;
+}
+
+function showHelp(kind) {
+  const h = $("help"); h.innerHTML = helpSteps(kind); h.hidden = false;
+  $("btnRetry") && ($("btnRetry").onclick = () => { h.hidden = true; startCamera(); });
+  $("btnCopy") && ($("btnCopy").onclick = async () => {
+    try { await navigator.clipboard.writeText(location.href); $("btnCopy").textContent = "Copied"; }
+    catch (_) { prompt("Copy this link:", location.href); }
+  });
+}
+
+async function startCamera() {
+  setError(""); $("help").hidden = true;
+  if (inFrame) return showHelp("frame");
+  if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
+    return showHelp(inAppBrowser ? "inapp" : "blocked");
+  }
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 720 } },
+      audio: { echoCancellation: true, noiseSuppression: true }
+    });
+  } catch (e) {
+    if (e.name === "NotFoundError" || e.name === "OverconstrainedError") return showHelp("none");
+    if (e.name === "NotReadableError" || e.name === "AbortError") return showHelp("busy");
+    return showHelp(inAppBrowser ? "inapp" : "blocked");
+  }
+  $("altWrap").hidden = true;
+  live.srcObject = stream; live.hidden = false; $("empty").hidden = true; $("hud").hidden = false;
+  startMeter();
+  show("btnRecord");
+  $("hint").textContent = "Check your framing and mic level, then start recording.";
+}
+
+// Fallback: the phone's own camera app. No browser permission needed.
+const MAX_FILE_MB = 35;
+let nativeDuration = null;
+$("btnNative").onclick = () => $("nativeFile").click();
+$("nativeFile").onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  setError(""); $("help").hidden = true;
+  if (f.size > MAX_FILE_MB * 1024 * 1024) {
+    e.target.value = "";
+    return setError(`That video is ${Math.round(f.size / 1048576)} MB, over the ${MAX_FILE_MB} MB limit. Try a shorter take (about a minute).`);
+  }
+  teardown(); stream = null;
+  blob = f; nativeDuration = null;
+  review.src = URL.createObjectURL(f);
+  review.onloadedmetadata = () => { if (isFinite(review.duration)) nativeDuration = Math.round(review.duration); };
+  live.hidden = true; review.hidden = false; $("empty").hidden = true; $("hud").hidden = true;
+  show("btnSend", "btnRedo");
+  $("hint").textContent = "Watch it back if you like. Then send it, or record again.";
+};
+
+// Warn up front when the camera can't work here
+if (inFrame) showHelp("frame"); else if (inAppBrowser) showHelp("inapp");
+
+function startMeter() {
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const an = audioCtx.createAnalyser(); an.fftSize = 512;
+    audioCtx.createMediaStreamSource(stream).connect(an);
+    const buf = new Uint8Array(an.fftSize);
+    const loop = () => {
+      an.getByteTimeDomainData(buf);
+      let peak = 0; for (const v of buf) peak = Math.max(peak, Math.abs(v - 128));
+      $("level").style.width = Math.min(100, peak * 1.6) + "%";
+      rafId = requestAnimationFrame(loop);
+    };
+    loop();
+  } catch (_) { /* meter is optional */ }
+}
+
+async function countdown() {
+  const c = $("count"); c.hidden = false;
+  for (const n of [3, 2, 1]) { c.textContent = n; await new Promise(r => setTimeout(r, 800)); }
+  c.hidden = true;
+}
+
+async function startRecording() {
+  setError(""); show(); await countdown();
+  mimeType = pickMime(); chunks = [];
+  try {
+    recorder = new MediaRecorder(stream, { ...(mimeType && { mimeType }), videoBitsPerSecond: VIDEO_BITRATE });
+  } catch (_) { recorder = new MediaRecorder(stream); }
+  recorder.ondataavailable = e => e.data.size && chunks.push(e.data);
+  recorder.onstop = finishRecording;
+  recorder.start(1000);
+  startedAt = Date.now(); $("recPill").hidden = false; show("btnStop");
+  $("hint").textContent = "Recording. Tap Stop when you're done.";
+  tickId = setInterval(() => {
+    const s = (Date.now() - startedAt) / 1000;
+    $("timer").textContent = fmt(s);
+    $("progress").style.width = Math.min(100, s / MAX_SECONDS * 100) + "%";
+    if (s >= MAX_SECONDS) stopRecording();
+  }, 250);
+}
+
+function stopRecording() {
+  clearInterval(tickId);
+  if (recorder && recorder.state !== "inactive") recorder.stop();
+}
+
+function finishRecording() {
+  $("recPill").hidden = true; $("progress").style.width = 0;
+  blob = new Blob(chunks, { type: (recorder.mimeType || mimeType || "video/webm") });
+  review.src = URL.createObjectURL(blob);
+  live.hidden = true; review.hidden = false; $("hud").hidden = true;
+  show("btnSend", "btnRedo");
+  $("hint").textContent = "Watch it back if you like. Then send it, or record again.";
+}
+
+function redo() {
+  if (!stream) { URL.revokeObjectURL(review.src); review.hidden = true; $("empty").hidden = false; blob = null; $("nativeFile").value = ""; show("btnCamera"); return $("btnNative").click(); }
+  URL.revokeObjectURL(review.src); review.removeAttribute("src"); review.hidden = true;
+  live.hidden = false; $("hud").hidden = false; blob = null;
+  show("btnRecord"); $("hint").textContent = "Ready when you are.";
+}
+
+function toBase64(b) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(String(r.result).split(",")[1]);
+    r.onerror = () => rej(r.error);
+    r.readAsDataURL(b);
+  });
+}
+
+async function send() {
+  setError("");
+  const name = $("name").value.trim();
+  if (!name) { $("name").focus(); return setError("Add your name so we know who sent it."); }
+  const btn = $("btnSend"); btn.disabled = true; btn.textContent = "Sending…"; $("btnRedo").disabled = true;
+  try {
+    const payload = {
+      name,
+      mimeType: blob.type || "video/mp4", video: await toBase64(blob),
+      durationSec: stream ? Math.round((Date.now() - startedAt) / 1000) : nativeDuration
+    };
+    const r = await fetch(UPLOAD_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" }, // avoids a CORS preflight
+      body: JSON.stringify(payload)
+    });
+    const out = await r.json();
+    if (!out.ok) throw new Error(out.error || "Upload failed");
+    teardown();
+    ["details","frame","controls","hint"].forEach(id => $(id).hidden = true);
+    $("done").hidden = false;
+  } catch (e) {
+    setError("Your video didn't send. Check your connection and tap Send again. Your recording is still here.");
+    btn.disabled = false; btn.textContent = "Send my Lab Note"; $("btnRedo").disabled = false;
+  }
+}
+
+function teardown() {
+  cancelAnimationFrame(rafId);
+  stream?.getTracks().forEach(t => t.stop());
+  audioCtx?.close();
+}
+
+$("btnCamera").onclick = startCamera;
+$("btnRecord").onclick = startRecording;
+$("btnStop").onclick = stopRecording;
+$("btnRedo").onclick = redo;
+$("btnSend").onclick = send;
+window.addEventListener("pagehide", teardown);
+</script>
+</body>
+</html>
