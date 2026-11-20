@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>Anyone can learn to lead any room | Lead the Room 5-Day Email Course</title>
+<meta name="description" content="A free 5-day email course: five 2-minute videos and five small experiments you run in your real meetings.">
+<meta property="og:title" content="Lead the Room 5-Day Email Course (free)">
+<meta property="og:description" content="Five 2-minute videos. Five experiments for your real meetings.">
+<meta property="og:image" content="https://leadtheroomsprint.com/minicourse/images/hero.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Brand variables: change these to re-brand */
+  :root {
+    --brand: #e02f75; --brand-dark: #c01f5f; --accent: #f9a03b;
+    --grad: linear-gradient(90deg, #e02f75 0%, #f05a3c 55%, #f9a03b 100%);
+    --bg: #0e1029; --ink: #12142f; --body: #3a3d55; --muted: #6b6f8a; --line: #e4e6f0; --tint: #fdf1f5;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--bg); color: var(--body); font: 400 17px/1.6 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; padding: 28px 16px 40px; }
+  .wordmark { display: block; text-align: center; font: 400 22px/1 "Archivo Black", "Inter", sans-serif; letter-spacing: .02em; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; margin: 0 auto 22px; }
+  .card { background: #fff; border-radius: 22px; max-width: 980px; margin: 0 auto; box-shadow: 0 24px 60px rgba(0,0,0,.35); overflow: hidden; }
+  .top { display: grid; grid-template-columns: 1.1fr 1fr; }
+  .left { padding: 44px 44px 40px; }
+  .right { position: relative; min-height: 100%; background: #12142f; }
+  .right img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 92% center; display: block; }
+  .kicker { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); }
+  h1 { color: var(--ink); font-weight: 800; font-size: 44px; line-height: 1.08; letter-spacing: -.02em; margin: 12px 0 18px; }
+  h1 .hl { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead { margin: 0 0 20px; }
+  .ticks { list-style: none; padding: 0; margin: 0 0 26px; }
+  .ticks li { position: relative; padding-left: 32px; margin-bottom: 10px; font-size: 16px; }
+  .ticks li::before { content: ""; position: absolute; left: 0; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--grad); }
+  .ticks li::after { content: ""; position: absolute; left: 7px; top: 7px; width: 5px; height: 9px; border: solid #fff; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+  .ticks b { color: var(--ink); }
+  .format { font-size: 14px; color: var(--muted); margin: -10px 0 18px; }
+  form { display: grid; gap: 10px; }
+  .field { display: grid; gap: 4px; }
+  .field label { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .field input { font: inherit; font-size: 16px; padding: 13px 14px; border: 1.5px solid var(--line); border-radius: 10px; color: var(--ink); background: #fafbff; }
+  .field input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(224,47,117,.15); }
+  .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.45; margin: 4px 0; cursor: pointer; }
+  .consent input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--brand); flex: none; }
+  .consent b { color: var(--ink); }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  button { font: 700 17px/1 "Inter", sans-serif; color: #fff; background: var(--grad); border: 0; border-radius: 999px; padding: 17px 24px; cursor: pointer; transition: filter .15s, transform .15s; }
+  button:hover { filter: brightness(.92); transform: translateY(-1px); }
+  button:disabled { opacity: .7; cursor: wait; transform: none; }
+  .error { color: #c01f5f; font-size: 14px; font-weight: 600; margin: 2px 0 0; }
+  .error[hidden] { display: none; }
+  .strip { border-top: 1px solid var(--line); padding: 28px 44px 34px; background: #fafbff; }
+  .strip h2 { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+  .five { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; list-style: none; padding: 0; margin: 0; }
+  .five li { background: #fff; border-radius: 12px; border-top: 4px solid var(--brand); box-shadow: 0 2px 8px rgba(18,20,47,.06); padding: 14px 14px 16px; }
+  .five .env { width: 22px; height: 15px; border: 2px solid var(--brand); border-radius: 3px; position: relative; margin-bottom: 10px; }
+  .five .env::after { content: ""; position: absolute; left: 2px; top: -4px; width: 11px; height: 11px; border: solid var(--brand); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+  .five small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--brand); }
+  .five span { color: var(--ink); font-weight: 700; font-size: 15px; line-height: 1.3; }
+  footer { text-align: center; color: #9aa1c2; font-size: 13px; margin-top: 30px; }
+  footer .wordmark { font-size: 15px; margin-bottom: 8px; }
+  @media (max-width: 860px) {
+    .top { grid-template-columns: 1fr; }
+    .right { order: -1; aspect-ratio: 16 / 9; }
+    .right img { object-position: center; }
+    .five { grid-template-columns: 1fr; gap: 8px; }
+    .five li { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-top: 0; border-left: 4px solid var(--brand); }
+    .five .env { margin: 0; flex: none; }
+  }
+  @media (max-width: 520px) {
+    body { padding: 18px 10px 30px; font-size: 16px; }
+    .left { padding: 28px 22px 30px; }
+    .strip { padding: 22px 18px 26px; }
+    h1 { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+<span class="wordmark">LEAD THE ROOM</span>
+
+<main class="card">
+  <div class="top">
+    <div class="left">
+      <div class="kicker">Free 5-day mini course</div>
+      <h1>Anyone can learn to <span class="hl">lead any room</span></h1>
+      <p class="lead">Five days. Five 2-minute videos. Five small experiments you run in your real meetings, from before the room fills to after it empties. No title needed, and no 20 years in the room. Just one move a day that changes how the room responds to you.</p>
+      <ul class="ticks">
+        <li><b>Before the meeting:</b> the 5-minute rehearsal actors use, and why rehearsing in your head doesn't count.</li>
+        <li><b>Opening the meeting:</b> why ground rules fail, and the two promises that replace them.</li>
+        <li><b>During the meeting:</b> how to check people heard your ask, and how to lift a flat meeting without being the boss.</li>
+        <li><b>Ending the meeting:</b> the closing move that means actions actually happen afterwards.</li>
+      </ul>
+      <p class="format">Each day: one 2-minute video and one small experiment to run in a real meeting.</p>
+
+      <form id="signup" novalidate>
+        <div class="field">
+          <label for="firstName">First name</label>
+          <input id="firstName" name="firstName" type="text" required maxlength="100" autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required maxlength="128" autocomplete="email">
+        </div>
+        <label class="consent">
+          <input id="consent" name="consent" type="checkbox" required>
+          <span><b>Yes, send me emails from Jason.</b><br>Unsubscribe any time. We'll never share your details.</span>
+        </label>
+        <div class="hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <button id="submit" type="submit">Start the free 5-day course</button>
+        <p class="error" id="error" role="alert" hidden></p>
+      </form>
+    </div>
+    <div class="right">
+      <img src="images/hero.webp" alt="Jason Moore and Michele Skogerboe leading a Lead the Room session, live and online" width="1000" height="686">
+    </div>
+  </div>
+
+  <section class="strip">
+    <h2>Your 5 days</h2>
+    <ol class="five">
+      <li><div class="env" aria-hidden="true"></div><div><small>Day 1</small><span>Rehearse out loud</span></div></li>
+      <li><div class="env" aria-hidden="true"></div><div><small>Day 2</small><span>One always, one never</span></div></li>
+      <li><div class="env" aria-hidden="true"></div><div><small>Day 3</small><span>Ask for the playback</span></div></li>
+      <li><div class="env" aria-hidden="true"></div><div><small>Day 4</small><span>Break the pattern</span></div></li>
+      <li><div class="env" aria-hidden="true"></div><div><small>Day 5</small><span>Fewest fingerprints</span></div></li>
+    </ol>
+  </section>
+</main>
+
+<footer>
+  <span class="wordmark">LEAD THE ROOM</span>
+  &copy; Jason Moore. All rights reserved.
+</footer>
+
+<script>
+  // PROTOTYPE MODE: while true, the form does NOT contact SendFox. It checks the
+  // fields and goes straight to the thank-you page. Set to false once the Netlify
+  // function has its SENDFOX_API_KEY and LIST_ID (see README.md).
+  var PROTOTYPE = false;
+
+  var form = document.getElementById("signup");
+  var btn = document.getElementById("submit");
+  var err = document.getElementById("error");
+  var btnText = btn.textContent;
+
+  function showError(msg) { err.textContent = msg; err.hidden = false; }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    err.hidden = true;
+    var firstName = form.firstName.value.trim();
+    var email = form.email.value.trim();
+    if (!firstName) return showError("Please enter your first name.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError("Please enter a valid email address.");
+    if (!form.consent.checked) return showError("Please tick the box to agree to receive emails.");
+    if (form.website.value) { window.location.href = "joined/"; return; } // honeypot: bot
+
+    btn.disabled = true;
+    btn.textContent = "Signing you up…";
+
+    if (PROTOTYPE) { setTimeout(function () { window.location.href = "joined/"; }, 600); return; }
+
+    fetch("/.netlify/functions/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ firstName: firstName, email: email, consent: true })
+    })
+      .then(function (r) { return r.json().catch(function () { return {}; }); })
+      .then(function (data) {
+        if (data && data.success) { window.location.href = "joined/"; return; }
+        throw new Error((data && data.error) || "Sign-up failed. Please try again.");
+      })
+      .catch(function (e2) {
+        showError(e2.message || "Network error. Please try again.");
+        btn.disabled = false;
+        btn.textContent = btnText;
+      });
+  });
+</script>
+</body>
+</html>
