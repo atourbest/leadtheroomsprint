@@ -25,7 +25,7 @@ a { color: var(--brand); }
 img { max-width: 100%; display: block; }
 
 .wordmark {
-  display: block; text-align: center; text-decoration: none;
+  display: block; width: fit-content; text-align: center; text-decoration: none;
   font: 400 22px/1 "Archivo Black", "Inter", sans-serif; letter-spacing: .02em;
   background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
   margin: 0 auto 22px;
